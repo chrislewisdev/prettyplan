@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-rendering: optimizeLegibility;
+    background: #e3f2fd;
+    color: #000000c0;
+}
+
+.prettyplan ul {
+    padding-left: 0;
+}
+
+.prettyplan li {
+
+    list-style: none;
+    /* background: linear-gradient(30deg, #b12f08, #581805); */
+    background-color: #ffffff;
+    padding: 10px;
+    color: #000000c0;
+    margin: 4px;
+    box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+}
+
+.prettyplan ul.warnings li {
+    /* border-radius: 6px; */
+    border-left: 3px solid #757575;
+}
+
+.prettyplan ul.actions li.update {
+    border-left: 3px solid #ff8f00;
+}
+.prettyplan ul.actions li.create {
+    border-left: 3px solid #2e7d32;
+}
+.prettyplan ul.actions li.destroy {
+    border-left: 3px solid #b71c1c;
+}
+.prettyplan ul.actions li.recreate {
+    border-left: 3px solid #1565c0;
+}
+
+.badge {
+    display: inline-block;
+    text-transform: uppercase;
+    margin-right: 10px;
+    padding: 3px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.warnings .badge {
+    color: #757575;
+}
+li.update .badge {
+    color: #ff8f00;
+}
+li.create .badge {
+    color: #2e7d32;
+}
+li.destroy .badge {
+    color: #b71c1c;
+}
+li.recreate .badge {
+    color: #1565c0;
+}
+
+.id {
+    font-weight: bold;
+    /* font-size: 18px; */
+}

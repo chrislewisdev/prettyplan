@@ -4,10 +4,34 @@
     <meta charset="utf-8" />
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css" />
     <script src="main.js"></script>
 </head>
 <body>
     <textarea id="terraform-plan"></textarea><br />
     <button onclick="parse()">Parse!</button>
+    <div class="prettyplan">
+        <ul class="warnings">
+            <li><span class="badge">warning</span><span class="id">module.backgroundcheck_processingservice.template_file.task_definition:</span> 
+                using template_file as a resource is deprecated; consider using the data source instead</li>
+            <li><span class="badge">warning</span><span class="id">module.backgroundcheck_queueingservice.template_file.task_definition:</span> using template_file as a resource is deprecated; consider using the data source instead</li>
+            <li><span class="badge">warning</span><span class="id">module.cluster.aws_iam_instance_profile.ecs:</span> "roles": [DEPRECATED] Use `role` instead. Only a single role can be passed to an IAM Instance Profile</li>
+            <li><span class="badge">warning</span><span class="id">module.cluster.template_file.user_data:</span> using template_file as a resource is deprecated; consider using the data source instead</li>
+        </ul>
+        <ul class="actions">
+            <li class="update">
+                <div><span class="badge">Update</span> <span class="id">module.jobad_api.aws_ecs_service.default</span> 1 change</div>
+            </li>
+            <li class="create">
+                <div><span class="badge">Create</span> <span class="id">module.jobad_api.aws_ecs_service.default</span> 1 change</div>
+            </li>
+            <li class="destroy">
+                <div><span class="badge">Destroy</span> <span class="id">module.jobad_api.aws_ecs_service.default</span> 1 change</div>
+            </li>
+            <li class="recreate">
+                <div><span class="badge">Recreate</span> <span class="id">module.jobad_api.aws_ecs_service.default</span> 1 change</div>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>
