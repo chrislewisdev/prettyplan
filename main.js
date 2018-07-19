@@ -93,4 +93,30 @@ function parse()
     }
 
     console.log(summary);
+    output(summary);
+}
+
+function output(plan)
+{
+    if (plan.warnings)
+    {
+        var warningList = document.getElementById('warnings');
+        for (var i = 0; i < plan.warnings.length; i++)
+        {
+            var badge = document.createElement('span');
+            badge.className = 'badge';
+            badge.innerText = 'warning';
+
+            var id = document.createElement('span');
+            id.className = 'id';
+            id.innerText = plan.warnings[i];
+
+            // var detail = document.createElement('span');
+            
+            var listElement = document.createElement('li');
+            listElement.appendChild(badge);
+            listElement.appendChild(id);
+            warningList.appendChild(listElement);
+        }
+    }
 }
