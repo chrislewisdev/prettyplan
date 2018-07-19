@@ -87,6 +87,13 @@ li.recreate .badge {
 .changes table td {
     padding: 10px;
     width: 40%;
+    /* max-width:40%;
+    overflow-x: scroll; */
+}
+pre {
+    /* width: 40%;
+    overflow-x: scroll; */
+    white-space: pre-wrap;
 }
 .changes table td.property {
     width: 20%;
