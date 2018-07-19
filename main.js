@@ -72,7 +72,7 @@ function parse()
     var summary = { warnings: warnings, actions: [] };
     for (var i = 0; i < changes.length; i++)
     {
-        var diffRegex = new RegExp('^ *(.*): *"(.*)" => (.*)$', 'gm');
+        var diffRegex = new RegExp('^ *(.*): *"(.*)" => "?(.*?)"?$', 'gm');
         var idRegex = new RegExp('([~+-]|-\/\+) (.*)$', 'gm');
         var diff;
         var diffs = [];
@@ -169,7 +169,19 @@ function output(plan)
 
                 var oldValue = document.createElement('td');
                 oldValue.className = 'old-value';
-                oldValue.innerHTML = plan.actions[i].changes[c].old;
+                if (plan.actions[i].changes[c].old.indexOf('\\n') >= 0)
+                {
+                    var pre = document.createElement('pre');
+                    pre.innerHTML = plan.actions[i].changes[c].old;
+                    pre.innerHTML = pre.innerHTML.replace(new RegExp('\\\\n', 'g'), '\n');
+                    pre.innerHTML = pre.innerHTML.replace(new RegExp('\\\\"', 'g'), '"');
+                    // pre.innerHTML.replace('\"', '"');
+                    oldValue.appendChild(pre);
+                }
+                else
+                {
+                    oldValue.innerHTML = plan.actions[i].changes[c].old;
+                }
 
                 var newValue = document.createElement('td');
                 newValue.className = 'new-value';
