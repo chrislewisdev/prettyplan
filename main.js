@@ -4,6 +4,27 @@
 //([~+-]|-\/\+) .*?^ {0,2}(?=[~+-]|-\/\+|Plan)
 //^\s*(.*):\s*"(.*)" => (.*)$
 
+function accordion(element)
+{
+    var changes = element.parentElement.getElementsByClassName('changes');
+    for (var i = 0; i < changes.length; i++)
+    {
+        toggleClass(changes[i], 'collapsed');
+    }
+}
+
+function toggleClass(element, className) 
+{
+    if (!element.className.match(className)) 
+    {
+        element.className += ' ' + className;
+    }
+    else
+    {
+        element.className = element.className.replace(className, '');
+    }
+}
+
 function parse()
 {
     var terraformPlan = document.getElementById("terraform-plan").value;

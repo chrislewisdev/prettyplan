@@ -66,3 +66,24 @@ li.recreate .badge {
     font-weight: bold;
     /* font-size: 18px; */
 }
+
+.summary {
+    cursor: pointer;
+}
+
+.changes {
+    width: 80%;
+    margin: 5px auto 0 auto;
+    padding: 5px;
+}
+.changes span {
+    display: inline-block;
+    width: 30%;
+}
+.changes table {
+    width: 100%;
+}
+
+.collapsed {
+    display: none;
+}
