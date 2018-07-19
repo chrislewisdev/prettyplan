@@ -18,9 +18,15 @@
             <li><span class="badge">warning</span><span class="id">module.cluster.aws_iam_instance_profile.ecs:</span> "roles": [DEPRECATED] Use `role` instead. Only a single role can be passed to an IAM Instance Profile</li>
             <li><span class="badge">warning</span><span class="id">module.cluster.template_file.user_data:</span> using template_file as a resource is deprecated; consider using the data source instead</li>
         </ul>
+        <button>Expand all</button>
         <ul class="actions">
             <li class="update">
-                <div><span class="badge">Update</span> <span class="id">module.jobad_api.aws_ecs_service.default</span> 1 change</div>
+                <div class="summary" onclick="accordion(this)"><span class="badge">Update</span> <span class="id">module.jobad_api.aws_ecs_service.default</span> 1 change</div>
+                <div class="changes collapsed">
+                    <table>
+                        <tr><td>stream_view_type:</td><td>from <em>&lt;blank&gt;</em></td><td>to "NEW_AND_OLD_IMAGES"</td></tr>
+                    </table>
+                </div>
             </li>
             <li class="create">
                 <div><span class="badge">Create</span> <span class="id">module.jobad_api.aws_ecs_service.default</span> 1 change</div>
