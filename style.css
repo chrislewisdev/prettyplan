@@ -104,6 +104,6 @@ pre {
     background-color: #f5f5f5;
 }
 
-.collapsed {
+.collapsed, .hidden {
     display: none;
 }
