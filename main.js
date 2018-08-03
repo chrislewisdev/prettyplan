@@ -72,6 +72,8 @@ function parse()
     var summary = { warnings: warnings, actions: [] };
     for (var i = 0; i < changes.length; i++)
     {
+        //TODO: This won't pick anything up if it's a CREATE effect
+        //this should work: ^ *(.*?): *"?(.*?)"?$
         var diffRegex = new RegExp('^ *(.*): *"(.*)" => "?(.*?)"?$', 'gm');
         var idRegex = new RegExp('([~+-]|-\/\+) (.*)$', 'gm');
         var diff;
