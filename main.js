@@ -147,10 +147,10 @@ function output(plan)
 
             var changeCount = document.createElement('span');
             changeCount.className = 'change-count';
-            if (plan.actions[i].changes)
+            if (plan.actions[i].changes && plan.actions[i].changes.length > 0)
             {
                 changeCount.innerText = ' ' + plan.actions[i].changes.length + ' change';
-                if (plan.actions[i].changes.length > 1) changeCount.innerText += 's';
+                if (plan.actions[i].changes.length != 1) changeCount.innerText += 's';
             }
 
             var summary = document.createElement('div');
