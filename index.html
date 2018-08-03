@@ -21,7 +21,8 @@
             <li><span class="badge">warning</span><span class="id">module.cluster.aws_iam_instance_profile.ecs:</span> "roles": [DEPRECATED] Use `role` instead. Only a single role can be passed to an IAM Instance Profile</li>
             <li><span class="badge">warning</span><span class="id">module.cluster.template_file.user_data:</span> using template_file as a resource is deprecated; consider using the data source instead</li> -->
         </ul>
-        <button>Expand all</button>
+        <button class="expand-all" onclick="expandAll()">Expand all</button>
+        <button class="collapse-all hidden" onclick="collapseAll()">Collapse all</button>
         <ul id="actions" class="actions">
             <!-- <li class="update">
                 <div class="summary" onclick="accordion(this)"><span class="badge">Update</span> <span class="id">module.jobad_api.aws_ecs_service.default</span> 1 change</div>

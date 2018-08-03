@@ -169,13 +169,12 @@ function output(plan)
 
                 var oldValue = document.createElement('td');
                 oldValue.className = 'old-value';
-                if (plan.actions[i].changes[c].old.indexOf('\\n') >= 0)
+                if (plan.actions[i].changes[c].old.indexOf('\\n') >= 0 || plan.actions[i].changes[c].old.indexOf('\\"') >= 0)
                 {
                     var pre = document.createElement('pre');
                     pre.innerHTML = plan.actions[i].changes[c].old;
                     pre.innerHTML = pre.innerHTML.replace(new RegExp('\\\\n', 'g'), '\n');
                     pre.innerHTML = pre.innerHTML.replace(new RegExp('\\\\"', 'g'), '"');
-                    // pre.innerHTML.replace('\"', '"');
                     oldValue.appendChild(pre);
                 }
                 else
@@ -185,7 +184,18 @@ function output(plan)
 
                 var newValue = document.createElement('td');
                 newValue.className = 'new-value';
-                newValue.innerText = plan.actions[i].changes[c].new;
+                if (plan.actions[i].changes[c].new.indexOf('\\n') >= 0 || plan.actions[i].changes[c].new.indexOf('\\"') >= 0)
+                {
+                    var pre = document.createElement('pre');
+                    pre.innerHTML = plan.actions[i].changes[c].new;
+                    pre.innerHTML = pre.innerHTML.replace(new RegExp('\\\\n', 'g'), '\n');
+                    pre.innerHTML = pre.innerHTML.replace(new RegExp('\\\\"', 'g'), '"');
+                    newValue.appendChild(pre);
+                }
+                else
+                {
+                    newValue.innerHTML = plan.actions[i].changes[c].new;
+                }
 
                 var row = document.createElement('tr');
                 row.appendChild(property);
@@ -205,4 +215,30 @@ function output(plan)
             actionList.appendChild(listElement);
         }
     }
+}
+
+function expandAll()
+{
+    var sections = document.querySelectorAll('.changes.collapsed');
+
+    for (var i = 0; i < sections.length; i++)
+    {
+        toggleClass(sections[i], 'collapsed');
+    }
+
+    toggleClass(document.querySelector('.expand-all'), 'hidden');
+    toggleClass(document.querySelector('.collapse-all'), 'hidden');
+}
+
+function collapseAll()
+{
+    var sections = document.querySelectorAll('.changes:not(.collapsed)');
+    
+    for (var i = 0; i < sections.length; i++)
+    {
+        toggleClass(sections[i], 'collapsed');
+    }
+    
+    toggleClass(document.querySelector('.expand-all'), 'hidden');
+    toggleClass(document.querySelector('.collapse-all'), 'hidden');
 }
