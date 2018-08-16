@@ -72,25 +72,9 @@ function parse()
     var summary = { warnings: warnings, actions: [] };
     for (var i = 0; i < changes.length; i++)
     {
-        //TODO: This won't pick anything up if it's a CREATE effect
-        //this should work: ^ *(.*?): *"?(.*?)"?$
-        var diffRegex = new RegExp('^ *(.*): *"(.*)" => "?(.*?)"?$', 'gm');
-        var idRegex = new RegExp('([~+-]|-\/\+) (.*)$', 'gm');
-        var diff;
-        var diffs = [];
-
-        do
-        {
-            diff = diffRegex.exec(changes[i]);
-            // console.log(diff);
-            if (diff) diffs.push({ property: diff[1], old: diff[2], new: diff[3] });
-        } while (diff);
-        
-        // console.log(changes[i]);
-        var id = idRegex.exec(changes[i]);
-        // console.log(id);
-
         var type;
+        var idRegex = new RegExp('([~+-]|-\/\+) (.*)$', 'gm');
+        var id = idRegex.exec(changes[i]);
         if (id[1] === "-") type = 'destroy';
         else if (id[1] === "+") type = 'create';
         else if (id[1] === "~") type = 'update';
@@ -100,6 +84,29 @@ function parse()
             type = 'recreate';
             id[2] = id[2].replace(' (new resource required)', '');
         }
+
+        //TODO: This won't pick anything up if it's a CREATE effect
+        //this should work: ^ *(.*?): *"?(.*?)"?$
+        var diffRegex = new RegExp('^ *(.*): *"(.*)" => "?(.*?)"?$', 'gm');
+        var createRegex = new RegExp('^ *(.*?): *"?(.*?)"?$', 'gm');
+        var diff;
+        var diffs = [];
+
+        do
+        {
+            if (type != 'create')
+            {
+                diff = diffRegex.exec(changes[i]);
+                // console.log(diff);
+                if (diff) diffs.push({ property: diff[1], old: diff[2], new: diff[3] });
+            }
+            else
+            {
+                diff = createRegex.exec(changes[i]);
+                if (diff) diffs.push({ property: diff[1], new: diff[2]});
+            }
+        } while (diff);
+        
 
         summary.actions.push({ id: id[2], type: type, changes: diffs });
     }
@@ -169,19 +176,22 @@ function output(plan)
                 property.className = 'property';
                 property.innerText = plan.actions[i].changes[c].property;
 
-                var oldValue = document.createElement('td');
-                oldValue.className = 'old-value';
-                if (plan.actions[i].changes[c].old.indexOf('\\n') >= 0 || plan.actions[i].changes[c].old.indexOf('\\"') >= 0)
+                if (plan.actions[i].changes[c].old)
                 {
-                    var pre = document.createElement('pre');
-                    pre.innerHTML = plan.actions[i].changes[c].old;
-                    pre.innerHTML = pre.innerHTML.replace(new RegExp('\\\\n', 'g'), '\n');
-                    pre.innerHTML = pre.innerHTML.replace(new RegExp('\\\\"', 'g'), '"');
-                    oldValue.appendChild(pre);
-                }
-                else
-                {
-                    oldValue.innerHTML = plan.actions[i].changes[c].old;
+                    var oldValue = document.createElement('td');
+                    oldValue.className = 'old-value';
+                    if (plan.actions[i].changes[c].old.indexOf('\\n') >= 0 || plan.actions[i].changes[c].old.indexOf('\\"') >= 0)
+                    {
+                        var pre = document.createElement('pre');
+                        pre.innerHTML = plan.actions[i].changes[c].old;
+                        pre.innerHTML = pre.innerHTML.replace(new RegExp('\\\\n', 'g'), '\n');
+                        pre.innerHTML = pre.innerHTML.replace(new RegExp('\\\\"', 'g'), '"');
+                        oldValue.appendChild(pre);
+                    }
+                    else
+                    {
+                        oldValue.innerHTML = plan.actions[i].changes[c].old;
+                    }
                 }
 
                 var newValue = document.createElement('td');
@@ -196,12 +206,12 @@ function output(plan)
                 }
                 else
                 {
-                    newValue.innerHTML = plan.actions[i].changes[c].new;
+                    newValue.innerText = plan.actions[i].changes[c].new;
                 }
 
                 var row = document.createElement('tr');
                 row.appendChild(property);
-                row.appendChild(oldValue);
+                if (plan.actions[i].changes[c].old) row.appendChild(oldValue);
                 row.appendChild(newValue);
                 changesTable.appendChild(row);
             }
