@@ -38,6 +38,9 @@ body {
 .prettyplan ul.actions li.recreate {
     border-left: 3px solid #1565c0;
 }
+.prettyplan ul.actions li.read {
+    border-left: 3px solid #519bf0;
+}
 
 .badge {
     display: inline-block;
@@ -61,6 +64,9 @@ li.destroy .badge {
 }
 li.recreate .badge {
     color: #1565c0;
+}
+li.read .badge {
+    color: #519bf0;
 }
 
 .id {

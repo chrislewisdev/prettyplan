@@ -54,7 +54,7 @@ function parse()
     var actions = terraformPlan.substring(begin.index + 45);
 
     //TODO: fix chopping off the '-/' in '-/+' changes
-    var changeRegex = new RegExp('([~+-]|-\/\+) [\\S\\s]*?\\s(?=-\/\+|[~+-]|Plan:)', 'gm');
+    var changeRegex = new RegExp('([~+-]|-\/\+|<=) [\\S\\s]*?\\s(?=-\/\+|[~+-]|<=|Plan:)', 'gm');
     var change;
     var changes = [];
 
@@ -73,11 +73,12 @@ function parse()
     for (var i = 0; i < changes.length; i++)
     {
         var type;
-        var idRegex = new RegExp('([~+-]|-\/\+) (.*)$', 'gm');
+        var idRegex = new RegExp('([~+-]|-\/\+|<=) (.*)$', 'gm');
         var id = idRegex.exec(changes[i]);
         if (id[1] === "-") type = 'destroy';
         else if (id[1] === "+") type = 'create';
         else if (id[1] === "~") type = 'update';
+        else if (id[1] === "<=") type = 'read';
 
         if (id[2].match('(new resource required)'))
         {
@@ -94,16 +95,15 @@ function parse()
 
         do
         {
-            if (type != 'create')
-            {
-                diff = diffRegex.exec(changes[i]);
-                // console.log(diff);
-                if (diff) diffs.push({ property: diff[1], old: diff[2], new: diff[3] });
-            }
-            else
+            if (type === 'create' || type === 'read')
             {
                 diff = createRegex.exec(changes[i]);
                 if (diff) diffs.push({ property: diff[1], new: diff[2]});
+            }
+            else
+            {
+                diff = diffRegex.exec(changes[i]);
+                if (diff) diffs.push({ property: diff[1], old: diff[2], new: diff[3] });
             }
         } while (diff);
         
