@@ -33,10 +33,16 @@ function toggleClass(element, className)
     }
 }
 
-function parse()
+function run()
 {
     var terraformPlan = document.getElementById("terraform-plan").value;
-    
+    var plan = parse(terraformPlan);
+    console.log(plan);
+    output(plan);
+}
+
+function parse(terraformPlan)
+{
     var warningRegex = new RegExp('Warning: (.*:)(.*)', 'gm');
     var warning;
     var warnings = [];
@@ -111,8 +117,7 @@ function parse()
         summary.actions.push({ id: id[2], type: type, changes: diffs });
     }
 
-    console.log(summary);
-    output(summary);
+    return summary;
 }
 
 function output(plan)
