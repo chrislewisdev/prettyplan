@@ -9,39 +9,13 @@
 </head>
 <body>
     <textarea id="terraform-plan"></textarea><br />
-    <button onclick="parse()">Parse!</button>
+    <button onclick="run()">Parse!</button>
     <div class="prettyplan">
-        <ul id="errors" class="errors">
-
-        </ul>
-        <ul id="warnings" class="warnings">
-            <!-- <li><span class="badge">warning</span><span class="id">module.backgroundcheck_processingservice.template_file.task_definition:</span> 
-                using template_file as a resource is deprecated; consider using the data source instead</li>
-            <li><span class="badge">warning</span><span class="id">module.backgroundcheck_queueingservice.template_file.task_definition:</span> using template_file as a resource is deprecated; consider using the data source instead</li>
-            <li><span class="badge">warning</span><span class="id">module.cluster.aws_iam_instance_profile.ecs:</span> "roles": [DEPRECATED] Use `role` instead. Only a single role can be passed to an IAM Instance Profile</li>
-            <li><span class="badge">warning</span><span class="id">module.cluster.template_file.user_data:</span> using template_file as a resource is deprecated; consider using the data source instead</li> -->
-        </ul>
+        <ul id="errors" class="errors"></ul>
+        <ul id="warnings" class="warnings"></ul>
         <button class="expand-all" onclick="expandAll()">Expand all</button>
         <button class="collapse-all hidden" onclick="collapseAll()">Collapse all</button>
-        <ul id="actions" class="actions">
-            <!-- <li class="update">
-                <div class="summary" onclick="accordion(this)"><span class="badge">Update</span> <span class="id">module.jobad_api.aws_ecs_service.default</span> 1 change</div>
-                <div class="changes collapsed">
-                    <table>
-                        <tr><td>stream_view_type:</td><td>from <em>&lt;blank&gt;</em></td><td>to "NEW_AND_OLD_IMAGES"</td></tr>
-                    </table>
-                </div>
-            </li>
-            <li class="create">
-                <div><span class="badge">Create</span> <span class="id">module.jobad_api.aws_ecs_service.default</span> 1 change</div>
-            </li>
-            <li class="destroy">
-                <div><span class="badge">Destroy</span> <span class="id">module.jobad_api.aws_ecs_service.default</span> 1 change</div>
-            </li>
-            <li class="recreate">
-                <div><span class="badge">Recreate</span> <span class="id">module.jobad_api.aws_ecs_service.default</span> 1 change</div>
-            </li> -->
-        </ul>
+        <ul id="actions" class="actions"></ul>
     </div>
 </body>
 </html>
