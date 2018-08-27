@@ -96,8 +96,17 @@ li.read .badge {
     color: #519bf0;
 }
 
-.id {
+.id-segment:not(:last-child)::after {
+    content: " > ";
+}
+.id-segment.name, .id-segment.type {
+    /* color: #00bcd4; */
+    /* text-decoration: underline; */
     font-weight: bold;
+}
+
+.change-count {
+    float: right;
 }
 
 .summary {

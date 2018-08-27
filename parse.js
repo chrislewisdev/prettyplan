@@ -22,7 +22,7 @@ function parseWarnings(terraformPlan) {
     do {
         warning = warningRegex.exec(terraformPlan);
         if (warning)
-        warnings.push({ id: warning[1], detail: warning[2] });
+        warnings.push({ id: parseId(warning[1]), detail: warning[2] });
     } while (warning);
     
     return warnings;
@@ -72,12 +72,21 @@ function parseChange(change) {
     else {
         diffs = parseNewAndOldValueDiffs(change);
     }
-    
+
     return { 
-        id: resourceId, 
+        id: parseId(resourceId), 
         type: type, 
         changes: diffs 
     };
+}
+
+function parseId(resourceId) {
+    var idSegments = resourceId.split('.');
+    var resourceName = idSegments[idSegments.length - 1];
+    var resourceType = idSegments[idSegments.length - 2];
+    var resourcePrefixes = idSegments.slice(0, idSegments.length - 2);
+
+    return { name : resourceName, type: resourceType, prefixes: resourcePrefixes };
 }
 
 function parseChangeSymbol(changeTypeSymbol, type) {

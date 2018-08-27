@@ -5,14 +5,6 @@ function clearExistingOutput()
     removeChildren(document.getElementById('actions'));
 }
 
-function removeChildren(element)
-{
-    while (element.lastChild)
-    {
-        element.removeChild(element.lastChild);
-    }
-}
-
 function hideParsingErrorMessage()
 {
     addClass(document.getElementById('parsing-error-message'), 'hidden');
@@ -95,15 +87,19 @@ function createChangeRowElement(change) {
     property.className = 'property';
     property.innerText = change.property;
     
+    var oldValue;
     if (change.old) {
-        var oldValue = createChangeRowValueElement('old-value', change.old);
+        oldValue = createChangeRowValueElement('old-value', change.old);
+    }
+    else {
+        oldValue = createChangeRowValueElement('old-value', '');
     }
     
     var newValue = createChangeRowValueElement('new-value', change.new);
     
     var row = document.createElement('tr');
     row.appendChild(property);
-    if (change.old) row.appendChild(oldValue);
+    row.appendChild(oldValue);
     row.appendChild(newValue);
     
     return row;
@@ -160,7 +156,25 @@ function createChangeCountElement(changeCount) {
 function createIdElement(id) {
     var idElement = document.createElement('span');
     idElement.className = 'id';
-    idElement.innerText = id;
+
+    for (var i = 0; i < id.prefixes.length; i++)
+    {
+        var prefixElement = document.createElement('span');
+        prefixElement.className = 'id-segment prefix';
+        prefixElement.innerText = id.prefixes[i];
+        idElement.appendChild(prefixElement);
+    }
+
+    var typeElement = document.createElement('span');
+    typeElement.className = 'id-segment type';
+    typeElement.innerText = id.type;
+    idElement.appendChild(typeElement);
+
+    var nameElement = document.createElement('span');
+    nameElement.className = 'id-segment name';
+    nameElement.innerText = id.name;
+    idElement.appendChild(nameElement);
+
     return idElement;
 }
 
