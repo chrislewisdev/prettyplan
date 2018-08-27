@@ -1,3 +1,18 @@
+function clearExistingPlan()
+{
+    removeChildren(document.getElementById('errors'));
+    removeChildren(document.getElementById('warnings'));
+    removeChildren(document.getElementById('actions'));
+}
+
+function removeChildren(element)
+{
+    while (element.lastChild)
+    {
+        element.removeChild(element.lastChild);
+    }
+}
+
 function render(plan)
 {
     if (plan.warnings)
