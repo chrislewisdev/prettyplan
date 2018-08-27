@@ -15,14 +15,33 @@ button {
     font-size: 16px;
 }
 
+#parsing-error-message {
+    background-color: #ffffff;
+    padding: 10px;
+    color: #000000c0;
+    margin: 4px;
+    box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+    font-weight: bold;
+    border-left: 2px solid red;
+    animation-name: error;
+    animation-duration: 1s;
+}
+
+@keyframes error {
+    0% {
+        background-color: red;
+    }
+    100% {
+        background-color: white;
+    }
+}
+
 .prettyplan ul {
     padding-left: 0;
 }
 
 .prettyplan li {
-
     list-style: none;
-    /* background: linear-gradient(30deg, #b12f08, #581805); */
     background-color: #ffffff;
     padding: 10px;
     color: #000000c0;
@@ -31,7 +50,6 @@ button {
 }
 
 .prettyplan ul.warnings li {
-    /* border-radius: 6px; */
     border-left: 3px solid #757575;
 }
 

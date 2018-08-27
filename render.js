@@ -1,4 +1,4 @@
-function clearExistingPlan()
+function clearExistingOutput()
 {
     removeChildren(document.getElementById('errors'));
     removeChildren(document.getElementById('warnings'));
@@ -11,6 +11,16 @@ function removeChildren(element)
     {
         element.removeChild(element.lastChild);
     }
+}
+
+function hideParsingErrorMessage()
+{
+    addClass(document.getElementById('parsing-error-message'), 'hidden');
+}
+
+function displayParsingErrorMessage()
+{
+    removeClass(document.getElementById('parsing-error-message'), 'hidden');
 }
 
 function render(plan)
