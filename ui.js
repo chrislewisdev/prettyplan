@@ -54,3 +54,11 @@ function collapseAll()
     toggleClass(document.querySelector('.expand-all'), 'hidden');
     toggleClass(document.querySelector('.collapse-all'), 'hidden');
 }
+
+function removeChildren(element)
+{
+    while (element.lastChild)
+    {
+        element.removeChild(element.lastChild);
+    }
+}
