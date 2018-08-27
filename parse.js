@@ -32,7 +32,8 @@ function extractChangeSummary(terraformPlan) {
     var beginActionRegex = new RegExp('Terraform will perform the following actions:', 'gm');
     var begin = beginActionRegex.exec(terraformPlan);
     
-    return terraformPlan.substring(begin.index + 45);
+    if (begin) return terraformPlan.substring(begin.index + 45);
+    else return terraformPlan;
 }
 
 function extractIndividualChanges(changeSummary) {

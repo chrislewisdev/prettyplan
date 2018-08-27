@@ -19,6 +19,16 @@ function toggleClass(element, className)
     }
 }
 
+function addClass(element, className)
+{
+    if (!element.className.match(className)) element.className += ' ' + className;
+}
+
+function removeClass(element, className)
+{
+    element.className = element.className.replace(className, '');
+}
+
 function expandAll()
 {
     var sections = document.querySelectorAll('.changes.collapsed');
