@@ -15,6 +15,11 @@ function displayParsingErrorMessage()
     removeClass(document.getElementById('parsing-error-message'), 'hidden');
 }
 
+function unHidePlan()
+{
+    removeClass(document.getElementById('prettyplan'), 'hidden');
+}
+
 function render(plan)
 {
     if (plan.warnings)
