@@ -11,9 +11,11 @@
     <script src="run.js"></script>
 </head>
 <body>
-    <h1>Prettyplan</h1>
-    <p>Just paste in your output from terraform plan (or use the provided example), and hit Prettify!</p>
-    <textarea id="terraform-plan">
+    <div class="stripe"></div>
+    <div class="container">
+        <h1>prettyplan</h1>
+        <p>Just paste in your output from terraform plan (or use the provided example), and hit Prettify!</p>
+        <textarea id="terraform-plan">
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
@@ -70,15 +72,16 @@ This plan was saved to: terraform.plan
 
 To perform exactly these actions, run the following command to apply:
     terraform apply "terraform.plan"
-    </textarea><br />
-    <button onclick="run()">Prettify it!</button>
-    <div id="parsing-error-message" class="hidden">That doesn't look like a Terraform plan. Did you copy the entire output (without colouring) from the plan command?</div>
-    <div class="prettyplan">
-        <ul id="errors" class="errors"></ul>
-        <ul id="warnings" class="warnings"></ul>
-        <button class="expand-all" onclick="expandAll()">Expand all</button>
-        <button class="collapse-all hidden" onclick="collapseAll()">Collapse all</button>
-        <ul id="actions" class="actions"></ul>
+        </textarea><br />
+        <button onclick="run()">Prettify it!</button>
+        <div id="parsing-error-message" class="hidden">That doesn't look like a Terraform plan. Did you copy the entire output (without colouring) from the plan command?</div>
+        <div id="prettyplan" class="prettyplan hidden">
+            <ul id="errors" class="errors"></ul>
+            <ul id="warnings" class="warnings"></ul>
+            <button class="expand-all" onclick="expandAll()">Expand all</button>
+            <button class="collapse-all hidden" onclick="collapseAll()">Collapse all</button>
+            <ul id="actions" class="actions"></ul>
+        </div>
     </div>
 </body>
 </html>

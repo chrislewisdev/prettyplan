@@ -13,4 +13,5 @@ function run()
     }
 
     render(plan);
+    unHidePlan();
 }
