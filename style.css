@@ -39,6 +39,9 @@ body {
     color: #4526AC;
     text-align: right;
 }
+#branding a {
+    color: #4526AC;
+}
 
 .container {
     margin: 10px 10px 0 10px;
