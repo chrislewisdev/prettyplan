@@ -1,5 +1,6 @@
 <!<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <title>prettyplan</title>
@@ -10,8 +11,13 @@
     <script src="render.js"></script>
     <script src="run.js"></script>
 </head>
+
 <body>
     <div class="stripe"></div>
+    <div id="branding">
+        Source on <a href="https://github.com/chrislewisdev/prettyplan">GitHub</a><br />
+        By <a href="https://twitter.com/chrislewisdev">Chris Lewis</a>
+    </div>
     <div class="container">
         <h1>prettyplan</h1>
         <p>Just paste in your output from terraform plan (or use the provided example), and hit Prettify!</p>
@@ -74,7 +80,8 @@ To perform exactly these actions, run the following command to apply:
     terraform apply "terraform.plan"
         </textarea><br />
         <button onclick="run()">Prettify it!</button>
-        <div id="parsing-error-message" class="hidden">That doesn't look like a Terraform plan. Did you copy the entire output (without colouring) from the plan command?</div>
+        <div id="parsing-error-message" class="hidden">That doesn't look like a Terraform plan. Did you copy the entire output
+            (without colouring) from the plan command?</div>
         <div id="prettyplan" class="prettyplan hidden">
             <ul id="errors" class="errors"></ul>
             <ul id="warnings" class="warnings"></ul>
@@ -84,4 +91,5 @@ To perform exactly these actions, run the following command to apply:
         </div>
     </div>
 </body>
+
 </html>

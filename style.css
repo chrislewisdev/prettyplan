@@ -5,8 +5,6 @@ body {
     color: #000000c0;
     font-size: 15px;
     margin: 0;
-    animation-name: fade-in;
-    animation-duration: 1s;
 }
 @keyframes fade-in {
     0% {
@@ -28,14 +26,24 @@ body {
     0% {
         width: 0%;
     }
-
     100% {
         width: 100%;
     }
 }
 
+#branding {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    font-size: 10px;
+    color: #4526AC;
+    text-align: right;
+}
+
 .container {
     margin: 10px 10px 0 10px;
+    animation-name: fade-in;
+    animation-duration: 1s;
 }
 @media only screen and (min-width: 600px) {
     .container {
