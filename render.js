@@ -116,9 +116,14 @@ function createChangeRowValueElement(type, value) {
     
     if (value.indexOf('\\n') >= 0 || value.indexOf('\\"') >= 0) {
         var pre = document.createElement('pre');
-        pre.innerHTML = value;
-        pre.innerHTML = pre.innerHTML.replace(new RegExp('\\\\n', 'g'), '\n');
-        pre.innerHTML = pre.innerHTML.replace(new RegExp('\\\\"', 'g'), '"');
+
+        var sanitisedValue = value.replace(new RegExp('\\\\n', 'g'), '\n')
+                                    .replace(new RegExp('\\\\"', 'g'), '"');
+
+        sanitisedValue = prettifyJson(sanitisedValue);
+
+        pre.innerHTML = sanitisedValue;
+
         element.appendChild(pre);
     }
     else {
@@ -126,6 +131,15 @@ function createChangeRowValueElement(type, value) {
     }
     
     return element;
+}
+
+function prettifyJson(json) {
+    try {
+        return JSON.stringify(JSON.parse(json), null, 2);
+    }
+    catch (e) {
+        return json;
+    }
 }
 
 function createActionSummaryElement(badge, id, changeCount) {
