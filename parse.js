@@ -116,7 +116,7 @@ function parseSingleValueDiffs(change)
 
 function parseNewAndOldValueDiffs(change)
 {
-    var propertyAndNewAndOldValueRegex = new RegExp('^ *(.*): *"(.*)" => "?(.*?)"?$', 'gm');
+    var propertyAndNewAndOldValueRegex = new RegExp('^ *(.*): *"(.*)" => "?(.*?)"?[^"]*$', 'gm');
     var diff;
     var diffs = [];
 
