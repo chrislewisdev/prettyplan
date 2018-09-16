@@ -132,6 +132,7 @@ function parseNewAndOldValueDiffs(change)
     return diffs;
 }
 
+//For usage in Jest tests
 if (module) {
     module.exports = {
         parseChangeSymbol: parseChangeSymbol
