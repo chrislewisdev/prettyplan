@@ -83,7 +83,7 @@ function parseChange(change) {
 function parseId(resourceId) {
     var idSegments = resourceId.split('.');
     var resourceName = idSegments[idSegments.length - 1];
-    var resourceType = idSegments[idSegments.length - 2];
+    var resourceType = idSegments[idSegments.length - 2] || null;
     var resourcePrefixes = idSegments.slice(0, idSegments.length - 2);
 
     return { name : resourceName, type: resourceType, prefixes: resourcePrefixes };
@@ -135,6 +135,7 @@ function parseNewAndOldValueDiffs(change)
 //For usage in Jest tests
 if (module) {
     module.exports = {
-        parseChangeSymbol: parseChangeSymbol
+        parseChangeSymbol: parseChangeSymbol,
+        parseId: parseId
     };
 }
