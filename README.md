@@ -21,6 +21,10 @@ The code in its current state aims to be as simple as possible: it's all plain J
 
 Any additional development dependencies - e.g. JavaScript frameworks, test frameworks, build systems, what have you - will be added on an as-needs basis if the project grows to require them.
  
+### Tests
+
+Tests are being run on every commit and Pull Request via Travis, but if you want to run them locally, you'll need to have `npm` on your PC, and run `npm install` followed by `npm test` in the repository.
+
 ## Will this steal sensitive data from my Terraform plans?
 
 No. All the parsing/formatting is done directly in your browser, no data is sent to or from another service.
