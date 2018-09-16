@@ -1,16 +1,14 @@
-function parse(terraformPlan)
-{
+function parse(terraformPlan) {
     var warnings = parseWarnings(terraformPlan);
-    
+
     var changeSummary = extractChangeSummary(terraformPlan);
     var changes = extractIndividualChanges(changeSummary);
-    
+
     var plan = { warnings: warnings, actions: [] };
-    for (var i = 0; i < changes.length; i++)
-    {
+    for (var i = 0; i < changes.length; i++) {
         plan.actions.push(parseChange(changes[i]));
     }
-    
+
     return plan;
 }
 
@@ -18,20 +16,21 @@ function parseWarnings(terraformPlan) {
     var warningRegex = new RegExp('Warning: (.*:)(.*)', 'gm');
     var warning;
     var warnings = [];
-    
+
     do {
         warning = warningRegex.exec(terraformPlan);
-        if (warning)
+        if (warning) {
             warnings.push({ id: parseId(warning[1]), detail: warning[2] });
+        }
     } while (warning);
-    
+
     return warnings;
 }
 
 function extractChangeSummary(terraformPlan) {
     var beginActionRegex = new RegExp('Terraform will perform the following actions:', 'gm');
     var begin = beginActionRegex.exec(terraformPlan);
-    
+
     if (begin) return terraformPlan.substring(begin.index + 45);
     else return terraformPlan;
 }
@@ -55,7 +54,7 @@ function parseChange(change) {
     var changeTypeAndId = changeTypeAndIdRegex.exec(change);
     var changeTypeSymbol = changeTypeAndId[1];
     var resourceId = changeTypeAndId[2];
-    
+
     var type;
     type = parseChangeSymbol(changeTypeSymbol, type);
 
@@ -73,10 +72,10 @@ function parseChange(change) {
         diffs = parseNewAndOldValueDiffs(change);
     }
 
-    return { 
-        id: parseId(resourceId), 
-        type: type, 
-        changes: diffs 
+    return {
+        id: parseId(resourceId),
+        type: type,
+        changes: diffs
     };
 }
 
@@ -86,7 +85,7 @@ function parseId(resourceId) {
     var resourceType = idSegments[idSegments.length - 2] || null;
     var resourcePrefixes = idSegments.slice(0, idSegments.length - 2);
 
-    return { name : resourceName, type: resourceType, prefixes: resourcePrefixes };
+    return { name: resourceName, type: resourceType, prefixes: resourcePrefixes };
 }
 
 function parseChangeSymbol(changeTypeSymbol) {
@@ -104,18 +103,17 @@ function parseChangeSymbol(changeTypeSymbol) {
         return 'unknown';
 }
 
-function parseSingleValueDiffs(change)
-{
+function parseSingleValueDiffs(change) {
     var propertyAndValueRegex = new RegExp('^ *(.*?): *"?(.*?)"? *$', 'gm');
     var diff;
     var diffs = [];
 
     do {
         diff = propertyAndValueRegex.exec(change);
-        if (diff) { 
-            diffs.push({ 
-                property: diff[1].trim(), 
-                new: diff[2] 
+        if (diff) {
+            diffs.push({
+                property: diff[1].trim(),
+                new: diff[2]
             });
         }
     } while (diff);
@@ -123,19 +121,18 @@ function parseSingleValueDiffs(change)
     return diffs;
 }
 
-function parseNewAndOldValueDiffs(change)
-{
+function parseNewAndOldValueDiffs(change) {
     var propertyAndNewAndOldValueRegex = new RegExp('^ *(.*): *"(.*)" => "?(.*?)"?$', 'gm');
     var diff;
     var diffs = [];
 
     do {
         diff = propertyAndNewAndOldValueRegex.exec(change);
-        if (diff)  {
-            diffs.push({ 
-                property: diff[1].trim(), 
-                old: diff[2], 
-                new: diff[3] 
+        if (diff) {
+            diffs.push({
+                property: diff[1].trim(),
+                old: diff[2],
+                new: diff[3]
             });
         }
     } while (diff);
