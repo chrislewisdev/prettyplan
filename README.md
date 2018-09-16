@@ -18,6 +18,8 @@ Things I'd like to add in the future if possible:
 You're welcome to submit ideas/bugs (via the Issues section) or improvements (via Pull Requests)! 
 
 The code in its current state aims to be as simple as possible: it's all plain JavaScript, so no build is required. Just edit the HTML/CSS/JS in whatever editor you like, then test it out by opening `index.html` in your browser!
+
+Any additional development dependencies - e.g. JavaScript frameworks, test frameworks, build systems, what have you - will be added on an as-needs basis if the project grows to require them.
  
 ## Will this steal sensitive data from my Terraform plans?
 
