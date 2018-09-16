@@ -22,7 +22,7 @@ function parseWarnings(terraformPlan) {
     do {
         warning = warningRegex.exec(terraformPlan);
         if (warning)
-        warnings.push({ id: parseId(warning[1]), detail: warning[2] });
+            warnings.push({ id: parseId(warning[1]), detail: warning[2] });
     } while (warning);
     
     return warnings;
@@ -106,13 +106,18 @@ function parseChangeSymbol(changeTypeSymbol) {
 
 function parseSingleValueDiffs(change)
 {
-    var propertyAndValueRegex = new RegExp('^ *(.*?): *"?(.*?)"?$', 'gm');
+    var propertyAndValueRegex = new RegExp('^ *(.*?): *"?(.*?)"? *$', 'gm');
     var diff;
     var diffs = [];
 
     do {
         diff = propertyAndValueRegex.exec(change);
-        if (diff) diffs.push({ property: diff[1], new: diff[2] });
+        if (diff) { 
+            diffs.push({ 
+                property: diff[1].trim(), 
+                new: diff[2] 
+            });
+        }
     } while (diff);
 
     return diffs;
@@ -126,7 +131,13 @@ function parseNewAndOldValueDiffs(change)
 
     do {
         diff = propertyAndNewAndOldValueRegex.exec(change);
-        if (diff) diffs.push({ property: diff[1], old: diff[2], new: diff[3] });
+        if (diff)  {
+            diffs.push({ 
+                property: diff[1].trim(), 
+                old: diff[2], 
+                new: diff[3] 
+            });
+        }
     } while (diff);
 
     return diffs;
@@ -136,6 +147,8 @@ function parseNewAndOldValueDiffs(change)
 if (module) {
     module.exports = {
         parseChangeSymbol: parseChangeSymbol,
-        parseId: parseId
+        parseId: parseId,
+        parseSingleValueDiffs: parseSingleValueDiffs,
+        parseNewAndOldValueDiffs: parseNewAndOldValueDiffs
     };
 }
