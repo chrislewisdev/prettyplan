@@ -1,4 +1,4 @@
-const parse = require('../parse.js');
+const parse = require('../js/parse.js');
 
 test('parse id - no prefixes', function() {
     const id = parse.parseId('aws_route53_record.domain_name');
