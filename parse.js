@@ -89,7 +89,7 @@ function parseId(resourceId) {
     return { name : resourceName, type: resourceType, prefixes: resourcePrefixes };
 }
 
-function parseChangeSymbol(changeTypeSymbol, type) {
+function parseChangeSymbol(changeTypeSymbol) {
     if (changeTypeSymbol === "-")
         return 'destroy';
     else if (changeTypeSymbol === "+")
@@ -98,6 +98,10 @@ function parseChangeSymbol(changeTypeSymbol, type) {
         return 'update';
     else if (changeTypeSymbol === "<=")
         return 'read';
+    else if (changeTypeSymbol === "-/+")
+        return 'recreate';
+    else
+        return 'unknown';
 }
 
 function parseSingleValueDiffs(change)
@@ -126,4 +130,11 @@ function parseNewAndOldValueDiffs(change)
     } while (diff);
 
     return diffs;
+}
+
+//For usage in Jest tests
+if (module) {
+    module.exports = {
+        parseChangeSymbol: parseChangeSymbol
+    };
 }

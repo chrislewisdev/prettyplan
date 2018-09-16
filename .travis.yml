@@ -1,0 +1,8 @@
+language: node_js
+
+# Tells Travis to use the latest Node version 
+# It defaults to an old one otherwise
+node_js: node
+
+# By default Travis will run "npm install" and "npm test" for node projects
+# So we don't need to specify them here
