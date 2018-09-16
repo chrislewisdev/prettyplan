@@ -1,0 +1,13 @@
+{
+  "name": "prettyplan",
+  "version": "1.0.0",
+  "description": "Formatting tool for terraform plan output",
+  "author": "Chris Lewis",
+  "license": "ISC",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
+}
