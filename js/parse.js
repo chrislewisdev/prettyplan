@@ -37,7 +37,7 @@ function extractChangeSummary(terraformPlan) {
 
 function extractIndividualChanges(changeSummary) {
     //TODO: Fix the '-/' in '-/+' getting chopped off
-    var changeRegex = new RegExp('([~+-]|-\/\+|<=) [\\S\\s]*?\\s(?=-\/\+|[~+-]|<=|Plan:)', 'gm');
+    var changeRegex = new RegExp('([~+-]|-\/\+|<=) [\\S\\s]*?((?=-\/\+|[~+-] |<=|Plan:)|$)', 'g');
     var change;
     var changes = [];
 
@@ -146,6 +146,8 @@ if (module) {
         parseChangeSymbol: parseChangeSymbol,
         parseId: parseId,
         parseSingleValueDiffs: parseSingleValueDiffs,
-        parseNewAndOldValueDiffs: parseNewAndOldValueDiffs
+        parseNewAndOldValueDiffs: parseNewAndOldValueDiffs,
+        extractIndividualChanges: extractIndividualChanges,
+        extractChangeSummary: extractChangeSummary
     };
 }
