@@ -1,4 +1,4 @@
-# prettyplan
+# prettyplan ![travis status](https://travis-ci.com/chrislewisdev/prettyplan.svg?branch=master)
 
 Prettyplan ([available online here](https://chrislewisdev.github.io/prettyplan/)) is a small tool to help you view large Terraform plans with ease. By pasting in your plan output, it will be formatted for:
 
