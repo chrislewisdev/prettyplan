@@ -148,6 +148,7 @@ if (module) {
         parseSingleValueDiffs: parseSingleValueDiffs,
         parseNewAndOldValueDiffs: parseNewAndOldValueDiffs,
         extractIndividualChanges: extractIndividualChanges,
-        extractChangeSummary: extractChangeSummary
+        extractChangeSummary: extractChangeSummary,
+        parseWarnings: parseWarnings
     };
 }
