@@ -104,7 +104,7 @@ function parseChangeSymbol(changeTypeSymbol) {
 }
 
 function parseSingleValueDiffs(change) {
-    var propertyAndValueRegex = new RegExp('\\s*(.*?): *(?:<computed>|"?([\\S\\s]*?)(?<=[^\\\\])")', 'gm');
+    var propertyAndValueRegex = new RegExp('\\s*(.*?): *(?:<computed>|"([\\S\\s]*?)(?<=[^\\\\])")', 'gm');
     var diff;
     var diffs = [];
 
