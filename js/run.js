@@ -1,3 +1,10 @@
+window.addEventListener('load', function () {
+    // if (getCurrentVersion() != getLastUsedVersion()) {
+        showReleaseNotification();
+        updateLastUsedVersion();
+    // }
+});
+
 function run() {
     hideParsingErrorMessage();
     clearExistingOutput();

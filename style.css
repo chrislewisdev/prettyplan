@@ -31,10 +31,36 @@ body {
     }
 }
 
+#release-notification {
+    background: #5C4CE4;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    padding: 10px 0 15px 0;
+    height: 20px;
+    animation-name: notification-pop-in;
+    animation-duration: 2s;
+}
+#release-notification a {
+    color: white;
+}
+@keyframes notification-pop-in {
+    0% {
+        height: 0;
+        padding: 0;
+    }
+    50% {
+        height: 0;
+        padding: 0;
+    }
+}
+
+
 #branding {
-    position: absolute;
-    top: 15px;
-    right: 10px;
+    float: right;
+    padding-top: 10px;
+    padding-right: 10px;
     font-size: 10px;
     color: #4526AC;
     text-align: right;

@@ -16,6 +16,10 @@ function unHidePlan() {
     removeClass(document.getElementById('prettyplan'), 'hidden');
 }
 
+function showReleaseNotification() {
+    removeClass(document.getElementById('release-notification'), 'hidden');
+}
+
 function render(plan) {
     if (plan.warnings) {
         var warningList = document.getElementById('warnings');
