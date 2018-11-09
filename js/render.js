@@ -16,13 +16,29 @@ function unHidePlan() {
     removeClass(document.getElementById('prettyplan'), 'hidden');
 }
 
+var components = {
+    id: (id) => `
+        <span class="id">
+            ${id.prefixes.map(prefix => 
+                `<span class="id-segment prefix">${prefix}</span>`
+            ).join('')}
+            <span class="id-segment type">${id.type}</span>
+            <span class="id-segment name">${id.name}</span>
+        </span>
+    `,
+    warning: (warning) => `
+        <li>
+            <span class="badge">warning</span>
+            ${components.id(warning.id)}
+            <span>${warning.detail}</span>
+        </li>
+    `
+};
+
 function render(plan) {
     if (plan.warnings) {
         var warningList = document.getElementById('warnings');
-        for (var i = 0; i < plan.warnings.length; i++) {
-            var warning = createWarningElement(plan.warnings[i], warningList);
-            warningList.appendChild(warning);
-        }
+        warningList.innerHTML = `${plan.warnings.map(components.warning).join('')}`;
     }
 
     if (plan.actions) {
@@ -32,22 +48,6 @@ function render(plan) {
             actionList.appendChild(action);
         }
     }
-}
-
-function createWarningElement(warning) {
-    var badge = createBadgeElement('warning');
-
-    var id = createIdElement(warning.id);
-
-    var detail = document.createElement('span');
-    detail.innerText = warning.detail;
-
-    var warningElement = document.createElement('li');
-    warningElement.appendChild(badge);
-    warningElement.appendChild(id);
-    warningElement.appendChild(detail);
-
-    return warningElement;
 }
 
 function createActionElement(action) {
