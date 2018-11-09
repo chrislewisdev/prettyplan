@@ -18,175 +18,87 @@ function unHidePlan() {
 
 function render(plan) {
     if (plan.warnings) {
-        var warningList = document.getElementById('warnings');
-        for (var i = 0; i < plan.warnings.length; i++) {
-            var warning = createWarningElement(plan.warnings[i], warningList);
-            warningList.appendChild(warning);
-        }
+        const warningList = document.getElementById('warnings');
+        warningList.innerHTML = plan.warnings.map(components.warning).join('');
     }
 
     if (plan.actions) {
-        var actionList = document.getElementById('actions');
-        for (var i = 0; i < plan.actions.length; i++) {
-            var action = createActionElement(plan.actions[i]);
-            actionList.appendChild(action);
-        }
+        const actionList = document.getElementById('actions');
+        actionList.innerHTML = plan.actions.map(components.action).join('');
     }
 }
 
-function createWarningElement(warning) {
-    var badge = createBadgeElement('warning');
+const components = {
+    badge: (label) => `
+        <span class="badge">${label}</span>
+    `,
 
-    var id = createIdElement(warning.id);
+    id: (id) => `
+        <span class="id">
+            ${id.prefixes.map(prefix => 
+                `<span class="id-segment prefix">${prefix}</span>`
+            ).join('')}
+            <span class="id-segment type">${id.type}</span>
+            <span class="id-segment name">${id.name}</span>
+        </span>
+    `,
 
-    var detail = document.createElement('span');
-    detail.innerText = warning.detail;
+    warning: (warning) => `
+        <li>
+            ${components.badge('warning')}
+            ${components.id(warning.id)}
+            <span>${warning.detail}</span>
+        </li>
+    `,
 
-    var warningElement = document.createElement('li');
-    warningElement.appendChild(badge);
-    warningElement.appendChild(id);
-    warningElement.appendChild(detail);
+    changeCount: (count) => `
+        <span class="change-count">
+            ${count + ' change' + (count > 1 ? 's' : '')}
+        </span>
+    `,
 
-    return warningElement;
-}
+    change: (change) => `
+        <tr>
+            <td class="property">${change.property}</td>
+            <td class="old-value">${change.old ? prettify(change.old) : ''}</td>
+            <td class="new-value">${prettify(change.new)}</td>
+        </tr>
+    `,
 
-function createActionElement(action) {
-    var badge = createBadgeElement(action.type);
+    action: (action) => `
+        <li class="${action.type}">
+            <div class="summary" onclick="accordion(this)">
+                ${components.badge(action.type)}
+                ${components.id(action.id)}
+                ${action.changes ? components.changeCount(action.changes.length) : ''}
+            </div>
+            <div class="changes collapsed">
+                <table>
+                    ${action.changes.map(components.change).join('')}
+                </table>
+            </div>
+        </li>
+    `
+};
 
-    var id = createIdElement(action.id);
-
-    var changeCount = createChangeCountElement(action.changes ? action.changes.length : 0);
-
-    var heading = createActionSummaryElement(badge, id, changeCount);
-
-    var changesTable = document.createElement('table');
-    for (var i = 0; i < action.changes.length; i++) {
-        var row = createChangeRowElement(action.changes[i]);
-        changesTable.appendChild(row);
-    }
-
-    var changes = document.createElement('div');
-    changes.className = 'changes collapsed';
-    changes.appendChild(changesTable);
-
-    var actionElement = document.createElement('li');
-    actionElement.className = action.type;
-    actionElement.appendChild(heading);
-    actionElement.appendChild(changes);
-
-    return actionElement;
-}
-
-function createChangeRowElement(change) {
-    var property = document.createElement('td');
-    property.className = 'property';
-    property.innerText = change.property;
-
-    var oldValue;
-    if (change.old) {
-        oldValue = createChangeRowValueElement('old-value', change.old);
-    }
-    else {
-        oldValue = createChangeRowValueElement('old-value', '');
-    }
-
-    var newValue = createChangeRowValueElement('new-value', change.new);
-
-    var row = document.createElement('tr');
-    row.appendChild(property);
-    row.appendChild(oldValue);
-    row.appendChild(newValue);
-
-    return row;
-}
-
-function createChangeRowValueElement(type, value) {
-    var element = document.createElement('td');
-    element.className = type;
-
+function prettify(value) {
     if (value.indexOf('\\n') >= 0 || value.indexOf('\\"') >= 0) {
-        var pre = document.createElement('pre');
-
         var sanitisedValue = value.replace(new RegExp('\\\\n', 'g'), '\n')
-            .replace(new RegExp('\\\\"', 'g'), '"');
-
+                                    .replace(new RegExp('\\\\"', 'g'), '"');
+        
         sanitisedValue = prettifyJson(sanitisedValue);
-
-        pre.innerHTML = sanitisedValue;
-
-        element.appendChild(pre);
+        return `<pre>${sanitisedValue}</pre>`;
     }
     else {
-        element.innerHTML = value;
+        return value;
     }
-
-    return element;
 }
 
-function prettifyJson(json) {
+function prettifyJson(maybeJson) {
     try {
-        return JSON.stringify(JSON.parse(json), null, 2);
+        return JSON.stringify(JSON.parse(maybeJson), null, 2);
     }
     catch (e) {
-        return json;
+        return maybeJson;
     }
-}
-
-function createActionSummaryElement(badge, id, changeCount) {
-    var summary = document.createElement('div');
-    summary.className = 'summary';
-    summary.onclick = handleSummaryToggle(summary);
-    summary.appendChild(badge);
-    summary.appendChild(id);
-    summary.appendChild(changeCount);
-
-    return summary;
-}
-
-function handleSummaryToggle(element) {
-    return function () {
-        accordion(element);
-    };
-}
-
-function createChangeCountElement(changeCount) {
-    var changeCountElement = document.createElement('span');
-    changeCountElement.className = 'change-count';
-    if (changeCount > 0) {
-        changeCountElement.innerText = ' ' + changeCount + ' change';
-        if (changeCount != 1)
-            changeCountElement.innerText += 's';
-    }
-    return changeCountElement;
-}
-
-function createIdElement(id) {
-    var idElement = document.createElement('span');
-    idElement.className = 'id';
-
-    for (var i = 0; i < id.prefixes.length; i++) {
-        var prefixElement = document.createElement('span');
-        prefixElement.className = 'id-segment prefix';
-        prefixElement.innerText = id.prefixes[i];
-        idElement.appendChild(prefixElement);
-    }
-
-    var typeElement = document.createElement('span');
-    typeElement.className = 'id-segment type';
-    typeElement.innerText = id.type;
-    idElement.appendChild(typeElement);
-
-    var nameElement = document.createElement('span');
-    nameElement.className = 'id-segment name';
-    nameElement.innerText = id.name;
-    idElement.appendChild(nameElement);
-
-    return idElement;
-}
-
-function createBadgeElement(label) {
-    var badge = document.createElement('span');
-    badge.className = 'badge';
-    badge.innerText = label;
-    return badge;
 }
