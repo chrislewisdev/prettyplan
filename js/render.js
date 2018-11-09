@@ -28,28 +28,6 @@ function render(plan) {
     }
 }
 
-function prettify(value) {
-    if (value.indexOf('\\n') >= 0 || value.indexOf('\\"') >= 0) {
-        var sanitisedValue = value.replace(new RegExp('\\\\n', 'g'), '\n')
-                                    .replace(new RegExp('\\\\"', 'g'), '"');
-        
-        sanitisedValue = prettifyJson(sanitisedValue);
-        return `<pre>${sanitisedValue}</pre>`;
-    }
-    else {
-        return value;
-    }
-}
-
-function prettifyJson(json) {
-    try {
-        return JSON.stringify(JSON.parse(json), null, 2);
-    }
-    catch (e) {
-        return json;
-    }
-}
-
 const components = {
     badge: (label) => `
         <span class="badge">${label}</span>
@@ -102,3 +80,25 @@ const components = {
         </li>
     `
 };
+
+function prettify(value) {
+    if (value.indexOf('\\n') >= 0 || value.indexOf('\\"') >= 0) {
+        var sanitisedValue = value.replace(new RegExp('\\\\n', 'g'), '\n')
+                                    .replace(new RegExp('\\\\"', 'g'), '"');
+        
+        sanitisedValue = prettifyJson(sanitisedValue);
+        return `<pre>${sanitisedValue}</pre>`;
+    }
+    else {
+        return value;
+    }
+}
+
+function prettifyJson(maybeJson) {
+    try {
+        return JSON.stringify(JSON.parse(maybeJson), null, 2);
+    }
+    catch (e) {
+        return maybeJson;
+    }
+}
