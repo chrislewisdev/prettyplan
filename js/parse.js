@@ -104,7 +104,7 @@ function parseChangeSymbol(changeTypeSymbol) {
 }
 
 function parseSingleValueDiffs(change) {
-    var propertyAndValueRegex = new RegExp('\\s*(.*?): *(?:<computed>|"([\\S\\s]*?[^\\\\])")', 'gm');
+    var propertyAndValueRegex = new RegExp('\\s*(.*?): *(?:<computed>|"([\\S\\s]*?[^\\\\]|)")', 'gm');
     var diff;
     var diffs = [];
 
@@ -113,7 +113,7 @@ function parseSingleValueDiffs(change) {
         if (diff) {
             diffs.push({
                 property: diff[1].trim(),
-                new: diff[2] ? diff[2] : "<computed>"
+                new: diff[2] !== undefined ? diff[2] : "<computed>"
             });
         }
     } while (diff);
@@ -122,7 +122,7 @@ function parseSingleValueDiffs(change) {
 }
 
 function parseNewAndOldValueDiffs(change) {
-    var propertyAndNewAndOldValueRegex = new RegExp('\\s*(.*?): *(?:"([\\S\\s]*?[^\\\\])")[\\S\\s]*?=> *(?:<computed>|"([\\S\\s]*?[^\\\\])")', 'gm');
+    var propertyAndNewAndOldValueRegex = new RegExp('\\s*(.*?): *(?:"([\\S\\s]*?[^\\\\]|)")[\\S\\s]*?=> *(?:<computed>|"([\\S\\s]*?[^\\\\]|)")', 'gm');
     var diff;
     var diffs = [];
 
@@ -132,7 +132,7 @@ function parseNewAndOldValueDiffs(change) {
             diffs.push({
                 property: diff[1].trim(),
                 old: diff[2],
-                new: diff[3] ? diff[3] : "<computed>"
+                new: diff[3] !== undefined ? diff[3] : "<computed>"
             });
         }
     } while (diff);

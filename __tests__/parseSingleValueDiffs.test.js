@@ -7,6 +7,13 @@ test('single value diffs - quote formatting', function() {
     expect(diffs[0].property).toBe('property_name');
     expect(diffs[0].new).toBe('new_value');
 });
+test('single value diffs - empty quotes', function() {
+    const diffs = parse.parseSingleValueDiffs('property_name: ""');
+
+    expect(diffs).toHaveLength(1);
+    expect(diffs[0].property).toBe('property_name');
+    expect(diffs[0].new).toBe('');
+});
 test('single value diffs - computed values', function() {
     const diffs = parse.parseSingleValueDiffs('property_name: <computed>');
 
