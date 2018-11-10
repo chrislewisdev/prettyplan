@@ -1,8 +1,8 @@
 window.addEventListener('load', function () {
-    // if (getCurrentVersion() != getLastUsedVersion()) {
-        showReleaseNotification();
+    if (getCurrentVersion() != getLastUsedVersion()) {
+        showReleaseNotification(getCurrentVersion());
         updateLastUsedVersion();
-    // }
+    }
 });
 
 function run() {

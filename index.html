@@ -15,7 +15,7 @@
 
 <body>
     <div class="stripe"></div>
-    <div id="release-notification" class="hidden">Welcome to v1.2! <a href="#">View release notes?</a></div>
+    <div id="release-notification" class="hidden"></div>
     <div id="branding">
         Source on <a href="https://github.com/chrislewisdev/prettyplan">GitHub</a><br />
         By <a href="https://twitter.com/chrislewisdev">Chris Lewis</a>
@@ -90,23 +90,6 @@ To perform exactly these actions, run the following command to apply:
             <button class="expand-all" onclick="expandAll()">Expand all</button>
             <button class="collapse-all hidden" onclick="collapseAll()">Collapse all</button>
             <ul id="actions" class="actions"></ul>
-        </div>
-    </div>
-    <div id="modal-pane"></div>
-    <div id="modal-content">
-        <div class="release-notes">
-            <h1>Release Notes</h1>
-            <h2>v1.1</h2>
-            <ul>
-                <li>Fixed #10 causing AWS IAM policies to be parsed incorrectly</li>
-            </ul>
-            <h2>v1.0</h2>
-            <ul>
-                <li>A nice lick of paint consistent with the Terraform branding</li>
-                <li>Support for JSON prettification</li>
-                <li>Works in all browsers</li>
-                <li>Support for release note notifications :)</li>
-            </ul>
         </div>
     </div>
 </body>
