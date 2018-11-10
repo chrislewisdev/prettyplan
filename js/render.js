@@ -19,6 +19,7 @@ function unHidePlan() {
 function showReleaseNotification(version) {
     const notificationElement = document.getElementById('release-notification');
     notificationElement.innerHTML = components.releaseNotification(version);
+    removeClass(notificationElement, 'hidden');
 }
 
 function hideReleaseNotification() {

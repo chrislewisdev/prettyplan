@@ -10,12 +10,12 @@
     <script src="js/ui.js"></script>
     <script src="js/parse.js"></script>
     <script src="js/render.js"></script>
-    <script src="js/run.js"></script>
+    <script src="js/prettyplan.js"></script>
 </head>
 
 <body>
     <div class="stripe"></div>
-    <div id="release-notification"></div>
+    <div id="release-notification" class="hidden"></div>
     <div id="branding">
         Source on <a href="https://github.com/chrislewisdev/prettyplan">GitHub</a><br />
         By <a href="https://twitter.com/chrislewisdev">Chris Lewis</a><br />
@@ -82,7 +82,7 @@ This plan was saved to: terraform.plan
 To perform exactly these actions, run the following command to apply:
     terraform apply "terraform.plan"
         </textarea><br />
-        <button onclick="run()">Prettify it!</button>
+        <button onclick="runPrettyplan()">Prettify it!</button>
         <div id="parsing-error-message" class="hidden">That doesn't look like a Terraform plan. Did you copy the entire output
             (without colouring) from the plan command?</div>
         <div id="prettyplan" class="prettyplan hidden">

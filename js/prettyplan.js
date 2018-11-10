@@ -5,7 +5,7 @@ window.addEventListener('load', function () {
     }
 });
 
-function run() {
+function runPrettyplan() {
     hideParsingErrorMessage();
     clearExistingOutput();
 
