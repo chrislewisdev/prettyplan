@@ -19,7 +19,10 @@ function unHidePlan() {
 function showReleaseNotification(version) {
     const notificationElement = document.getElementById('release-notification');
     notificationElement.innerHTML = components.releaseNotification(version);
-    removeClass(notificationElement, 'hidden');
+}
+
+function hideReleaseNotification() {
+    addClass(document.getElementById('release-notification'), 'dismissed');
 }
 
 function showReleaseNotes() {
@@ -114,7 +117,8 @@ const components = {
 
     releaseNotification: (version) => `
         Welcome to ${version}!
-        <button class="text-button" onclick="showReleaseNotes()">View release notes?</button>
+        <button class="text-button" onclick="showReleaseNotes(); hideReleaseNotification()">View release notes?</button>
+        (or <button class="text-button" onclick="hideReleaseNotification()">ignore</button>)
     `
 };
 
