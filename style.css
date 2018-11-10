@@ -155,9 +155,12 @@ button.text-button {
     width: auto;
     height: auto;
     text-decoration: underline;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: inherit;
+    font-weight: inherit;
     font-family: Arial, Helvetica, sans-serif; 
+    color: inherit;
+    text-align: inherit;
+    padding: 0;
 }
 
 #parsing-error-message {
