@@ -56,6 +56,10 @@ body {
     }
 }
 
+#modal-container {
+    animation-name: fade-in;
+    animation-duration: .2s;
+}
 .modal-pane {
     position: fixed;
     top: 0;
