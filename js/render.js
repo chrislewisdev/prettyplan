@@ -16,6 +16,20 @@ function unHidePlan() {
     removeClass(document.getElementById('prettyplan'), 'hidden');
 }
 
+function showReleaseNotification(version) {
+    const notificationElement = document.getElementById('release-notification');
+    notificationElement.innerHTML = components.releaseNotification(version);
+    removeClass(notificationElement, 'hidden');
+}
+
+function hideReleaseNotification() {
+    addClass(document.getElementById('release-notification'), 'dismissed');
+}
+
+function showReleaseNotes() {
+    createModalContainer().innerHTML = components.modal(components.releaseNotes(releases));
+}
+
 function render(plan) {
     if (plan.warnings) {
         const warningList = document.getElementById('warnings');
@@ -78,6 +92,34 @@ const components = {
                 </table>
             </div>
         </li>
+    `,
+
+    modal: (content) => `
+        <div class="modal-pane" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <div class="modal-close"><button class="text-button" onclick="closeModal()">close</button></div>
+            ${content}
+        </div>
+    `,
+
+    releaseNotes: (releases) => `
+        <div class="release-notes">
+            <h1>Release Notes</h1>
+            ${releases.map(components.release).join('')}
+        </div>
+    `,
+
+    release: (release) => `
+        <h2>${release.version}</h2>
+        <ul>
+            ${release.notes.map((note) => `<li>${note}</li>`).join('')}
+        </ul>
+    `,
+
+    releaseNotification: (version) => `
+        Welcome to ${version}!
+        <button class="text-button" onclick="showReleaseNotes(); hideReleaseNotification()">View release notes?</button>
+        (or <button class="text-button" onclick="hideReleaseNotification()">ignore</button>)
     `
 };
 

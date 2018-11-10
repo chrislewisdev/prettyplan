@@ -1,5 +1,5 @@
 function accordion(element) {
-    var changes = element.parentElement.getElementsByClassName('changes');
+    const changes = element.parentElement.getElementsByClassName('changes');
     for (var i = 0; i < changes.length; i++) {
         toggleClass(changes[i], 'collapsed');
     }
@@ -23,7 +23,7 @@ function removeClass(element, className) {
 }
 
 function expandAll() {
-    var sections = document.querySelectorAll('.changes.collapsed');
+    const sections = document.querySelectorAll('.changes.collapsed');
 
     for (var i = 0; i < sections.length; i++) {
         toggleClass(sections[i], 'collapsed');
@@ -34,7 +34,7 @@ function expandAll() {
 }
 
 function collapseAll() {
-    var sections = document.querySelectorAll('.changes:not(.collapsed)');
+    const sections = document.querySelectorAll('.changes:not(.collapsed)');
 
     for (var i = 0; i < sections.length; i++) {
         toggleClass(sections[i], 'collapsed');
@@ -48,4 +48,18 @@ function removeChildren(element) {
     while (element.lastChild) {
         element.removeChild(element.lastChild);
     }
+}
+
+function createModalContainer() {
+    const modalElement = document.createElement('div');
+    modalElement.id = 'modal-container';
+
+    document.body.appendChild(modalElement);
+
+    return modalElement;
+}
+
+function closeModal() {
+    const modalElement = document.getElementById('modal-container');
+    document.body.removeChild(modalElement);
 }
