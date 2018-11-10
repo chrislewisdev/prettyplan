@@ -1,4 +1,11 @@
-function run() {
+window.addEventListener('load', function () {
+    if (getCurrentVersion() != getLastUsedVersion()) {
+        showReleaseNotification(getCurrentVersion());
+        updateLastUsedVersion();
+    }
+});
+
+function runPrettyplan() {
     hideParsingErrorMessage();
     clearExistingOutput();
 
