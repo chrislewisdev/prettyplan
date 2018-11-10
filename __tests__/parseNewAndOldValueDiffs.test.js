@@ -8,6 +8,14 @@ test('new and old value diffs - quote formatting', function() {
     expect(diffs[0].old).toBe('old_value');
     expect(diffs[0].new).toBe('new_value');
 });
+test('new and old value diffs - empty quotes', function() {
+    const diffs = parse.parseNewAndOldValueDiffs('property_name: "" => "new_value"');
+
+    expect(diffs).toHaveLength(1);
+    expect(diffs[0].property).toBe('property_name');
+    expect(diffs[0].old).toBe('');
+    expect(diffs[0].new).toBe('new_value');
+});
 test('new and old value diffs - computed values', function() {
     const diffs = parse.parseNewAndOldValueDiffs('property_name: "old_value" => <computed>');
 
