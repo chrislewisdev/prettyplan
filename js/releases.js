@@ -13,6 +13,13 @@ function updateLastUsedVersion() {
 //New releases should always go at the top of this list.
 var releases = [
     {
+        version: 'v1.2',
+        notes: [
+            '<em>&lt;computed&gt;</em> values now display properly instead of being interpreted as HTML (<a target="_blank" href="https://github.com/chrislewisdev/prettyplan/issues/2">#2</a>)',
+            'Italics for <em>&lt;computed&gt;</em> or <em>${variable}</em> values to help set them apart from regular values'
+        ]
+    },
+    {
         version: 'v1.1',
         notes: [
             'Added handy release notes!',
