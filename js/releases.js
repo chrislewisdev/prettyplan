@@ -16,6 +16,7 @@ var releases = [
         version: 'v1.2',
         notes: [
             '<em>&lt;computed&gt;</em> values now display properly instead of being interpreted as HTML (<a target="_blank" href="https://github.com/chrislewisdev/prettyplan/issues/2">#2</a>)',
+            'Resource changes with <em>(forces new resource)</em> now have this highlighted in the table of changes (<a target="_blank" href="https://github.com/chrislewisdev/prettyplan/issues/3">#3</a>)',
             'Italics for <em>&lt;computed&gt;</em> or <em>${variable}</em> values to help set them apart from regular values'
         ]
     },
