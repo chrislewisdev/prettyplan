@@ -1,4 +1,4 @@
-<!<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -6,17 +6,20 @@
     <title>prettyplan</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css" />
-    <script src="ui.js"></script>
-    <script src="parse.js"></script>
-    <script src="render.js"></script>
-    <script src="run.js"></script>
+    <script src="js/releases.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/parse.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/prettyplan.js"></script>
 </head>
 
 <body>
     <div class="stripe"></div>
+    <div id="release-notification" class="hidden"></div>
     <div id="branding">
         Source on <a href="https://github.com/chrislewisdev/prettyplan">GitHub</a><br />
-        By <a href="https://twitter.com/chrislewisdev">Chris Lewis</a>
+        By <a href="https://twitter.com/chrislewisdev">Chris Lewis</a><br />
+        <button class="text-button" onclick="showReleaseNotes()">Release Notes</button>
     </div>
     <div class="container">
         <h1>prettyplan</h1>
@@ -79,7 +82,7 @@ This plan was saved to: terraform.plan
 To perform exactly these actions, run the following command to apply:
     terraform apply "terraform.plan"
         </textarea><br />
-        <button onclick="run()">Prettify it!</button>
+        <button onclick="runPrettyplan()">Prettify it!</button>
         <div id="parsing-error-message" class="hidden">That doesn't look like a Terraform plan. Did you copy the entire output
             (without colouring) from the plan command?</div>
         <div id="prettyplan" class="prettyplan hidden">

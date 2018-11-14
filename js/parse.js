@@ -1,16 +1,14 @@
-function parse(terraformPlan)
-{
+function parse(terraformPlan) {
     var warnings = parseWarnings(terraformPlan);
-    
+
     var changeSummary = extractChangeSummary(terraformPlan);
     var changes = extractIndividualChanges(changeSummary);
-    
+
     var plan = { warnings: warnings, actions: [] };
-    for (var i = 0; i < changes.length; i++)
-    {
+    for (var i = 0; i < changes.length; i++) {
         plan.actions.push(parseChange(changes[i]));
     }
-    
+
     return plan;
 }
 
@@ -18,27 +16,28 @@ function parseWarnings(terraformPlan) {
     var warningRegex = new RegExp('Warning: (.*:)(.*)', 'gm');
     var warning;
     var warnings = [];
-    
+
     do {
         warning = warningRegex.exec(terraformPlan);
-        if (warning)
-        warnings.push({ id: parseId(warning[1]), detail: warning[2] });
+        if (warning) {
+            warnings.push({ id: parseId(warning[1]), detail: warning[2] });
+        }
     } while (warning);
-    
+
     return warnings;
 }
 
 function extractChangeSummary(terraformPlan) {
     var beginActionRegex = new RegExp('Terraform will perform the following actions:', 'gm');
     var begin = beginActionRegex.exec(terraformPlan);
-    
+
     if (begin) return terraformPlan.substring(begin.index + 45);
     else return terraformPlan;
 }
 
 function extractIndividualChanges(changeSummary) {
     //TODO: Fix the '-/' in '-/+' getting chopped off
-    var changeRegex = new RegExp('([~+-]|-\/\+|<=) [\\S\\s]*?\\s(?=-\/\+|[~+-]|<=|Plan:)', 'gm');
+    var changeRegex = new RegExp('([~+-]|-\/\+|<=) [\\S\\s]*?((?=-\/\+|[~+-] |<=|Plan:)|$)', 'g');
     var change;
     var changes = [];
 
@@ -55,7 +54,7 @@ function parseChange(change) {
     var changeTypeAndId = changeTypeAndIdRegex.exec(change);
     var changeTypeSymbol = changeTypeAndId[1];
     var resourceId = changeTypeAndId[2];
-    
+
     var type;
     type = parseChangeSymbol(changeTypeSymbol, type);
 
@@ -73,23 +72,23 @@ function parseChange(change) {
         diffs = parseNewAndOldValueDiffs(change);
     }
 
-    return { 
-        id: parseId(resourceId), 
-        type: type, 
-        changes: diffs 
+    return {
+        id: parseId(resourceId),
+        type: type,
+        changes: diffs
     };
 }
 
 function parseId(resourceId) {
     var idSegments = resourceId.split('.');
     var resourceName = idSegments[idSegments.length - 1];
-    var resourceType = idSegments[idSegments.length - 2];
+    var resourceType = idSegments[idSegments.length - 2] || null;
     var resourcePrefixes = idSegments.slice(0, idSegments.length - 2);
 
-    return { name : resourceName, type: resourceType, prefixes: resourcePrefixes };
+    return { name: resourceName, type: resourceType, prefixes: resourcePrefixes };
 }
 
-function parseChangeSymbol(changeTypeSymbol, type) {
+function parseChangeSymbol(changeTypeSymbol) {
     if (changeTypeSymbol === "-")
         return 'destroy';
     else if (changeTypeSymbol === "+")
@@ -98,32 +97,58 @@ function parseChangeSymbol(changeTypeSymbol, type) {
         return 'update';
     else if (changeTypeSymbol === "<=")
         return 'read';
+    else if (changeTypeSymbol === "-/+")
+        return 'recreate';
+    else
+        return 'unknown';
 }
 
-function parseSingleValueDiffs(change)
-{
-    var propertyAndValueRegex = new RegExp('^ *(.*?): *"?(.*?)"?$', 'gm');
+function parseSingleValueDiffs(change) {
+    var propertyAndValueRegex = new RegExp('\\s*(.*?): *(?:<computed>|"(|[\\S\\s]*?[^\\\\])")', 'gm');
     var diff;
     var diffs = [];
 
     do {
         diff = propertyAndValueRegex.exec(change);
-        if (diff) diffs.push({ property: diff[1], new: diff[2] });
+        if (diff) {
+            diffs.push({
+                property: diff[1].trim(),
+                new: diff[2] !== undefined ? diff[2] : "<computed>"
+            });
+        }
     } while (diff);
 
     return diffs;
 }
 
-function parseNewAndOldValueDiffs(change)
-{
-    var propertyAndNewAndOldValueRegex = new RegExp('^ *(.*): *"(.*)" => "?(.*?)"?[^"]*$', 'gm');
+function parseNewAndOldValueDiffs(change) {
+    var propertyAndNewAndOldValueRegex = new RegExp('\\s*(.*?): *(?:"(|[\\S\\s]*?[^\\\\])")[\\S\\s]*?=> *(?:<computed>|"(|[\\S\\s]*?[^\\\\])")', 'gm');
     var diff;
     var diffs = [];
 
     do {
         diff = propertyAndNewAndOldValueRegex.exec(change);
-        if (diff) diffs.push({ property: diff[1], old: diff[2], new: diff[3] });
+        if (diff) {
+            diffs.push({
+                property: diff[1].trim(),
+                old: diff[2],
+                new: diff[3] !== undefined ? diff[3] : "<computed>"
+            });
+        }
     } while (diff);
 
     return diffs;
+}
+
+//For usage in Jest tests
+if (module) {
+    module.exports = {
+        parseChangeSymbol: parseChangeSymbol,
+        parseId: parseId,
+        parseSingleValueDiffs: parseSingleValueDiffs,
+        parseNewAndOldValueDiffs: parseNewAndOldValueDiffs,
+        extractIndividualChanges: extractIndividualChanges,
+        extractChangeSummary: extractChangeSummary,
+        parseWarnings: parseWarnings
+    };
 }
