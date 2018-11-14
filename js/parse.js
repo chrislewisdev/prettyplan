@@ -122,7 +122,7 @@ function parseSingleValueDiffs(change) {
 }
 
 function parseNewAndOldValueDiffs(change) {
-    var propertyAndNewAndOldValueRegex = new RegExp('\\s*(.*?): *(?:"(|[\\S\\s]*?[^\\\\])")[\\S\\s]*?=> *(?:<computed>|"(|[\\S\\s]*?[^\\\\])")', 'gm');
+    var propertyAndNewAndOldValueRegex = new RegExp('\\s*(.*?): *(?:"(|[\\S\\s]*?[^\\\\])")[\\S\\s]*?=> *(?:<computed>|"(|[\\S\\s]*?[^\\\\])")( \\(forces new resource\\))?', 'gm');
     var diff;
     var diffs = [];
 
@@ -132,7 +132,8 @@ function parseNewAndOldValueDiffs(change) {
             diffs.push({
                 property: diff[1].trim(),
                 old: diff[2],
-                new: diff[3] !== undefined ? diff[3] : "<computed>"
+                new: diff[3] !== undefined ? diff[3] : "<computed>",
+                forcesNewResource: diff[4] !== undefined
             });
         }
     } while (diff);

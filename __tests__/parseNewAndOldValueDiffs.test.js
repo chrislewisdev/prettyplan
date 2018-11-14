@@ -54,3 +54,21 @@ test('new and old value diffs - IAM policy document', function() {
     expect(diffs).toHaveLength(1);
     expect(diffs[0].property).toBe('policy');
 });
+test('force new resource - false for normal diffs', function() {
+    const diffs = parse.parseNewAndOldValueDiffs('property_name: "old_value" => "new_value"');
+
+    expect(diffs).toHaveLength(1);
+    expect(diffs[0].forcesNewResource).toBe(false);
+});
+test('force new resource - true when included', function() {
+    const diffs = parse.parseNewAndOldValueDiffs('property_name: "old_value" => "new_value" (forces new resource)');
+
+    expect(diffs).toHaveLength(1);
+    expect(diffs[0].forcesNewResource).toBe(true);
+});
+test('force new resource - works for <computed> values', function() {
+    const diffs = parse.parseNewAndOldValueDiffs('property_name: "old_value" => <computed> (forces new resource)');
+
+    expect(diffs).toHaveLength(1);
+    expect(diffs[0].forcesNewResource).toBe(true);
+});
