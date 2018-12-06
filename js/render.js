@@ -73,7 +73,10 @@ const components = {
 
     change: (change) => `
         <tr>
-            <td class="property">${change.property}</td>
+            <td class="property">
+                ${change.property}
+                ${change.forcesNewResource ? `<br /><span class="forces-new-resource">(forces new resource)</span>` : ''}
+            </td>
             <td class="old-value">${change.old ? prettify(change.old) : ''}</td>
             <td class="new-value">${prettify(change.new)}</td>
         </tr>
@@ -124,12 +127,19 @@ const components = {
 };
 
 function prettify(value) {
-    if (value.indexOf('\\n') >= 0 || value.indexOf('\\"') >= 0) {
+    if (value === '<computed>')
+    {
+        return `<em>&lt;computed&gt;</em>`;
+    }
+    else if (value.startsWith('${') && value.endsWith('}'))
+    {
+        return `<em>${value}</em>`;
+    }
+    else if (value.indexOf('\\n') >= 0 || value.indexOf('\\"') >= 0) {
         var sanitisedValue = value.replace(new RegExp('\\\\n', 'g'), '\n')
-                                    .replace(new RegExp('\\\\"', 'g'), '"');
+                                  .replace(new RegExp('\\\\"', 'g'), '"');
         
-        sanitisedValue = prettifyJson(sanitisedValue);
-        return `<pre>${sanitisedValue}</pre>`;
+        return `<pre>${prettifyJson(sanitisedValue)}</pre>`;
     }
     else {
         return value;

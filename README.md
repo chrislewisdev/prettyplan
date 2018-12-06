@@ -25,6 +25,10 @@ Any additional development dependencies - e.g. JavaScript frameworks, test frame
 
 Tests are being run on every commit and Pull Request via Travis, but if you want to run them locally, you'll need to have `npm` on your PC, and run `npm install` followed by `npm test` in the repository.
 
+## Deployment
+
+The website is served from the `gh-pages` branch. All PRs should be landed onto `master` and then, whenever it's appropriate for a new release, `gh-pages` can be updated with a merge from `master`, with updated release notes.
+
 ## Will this steal sensitive data from my Terraform plans?
 
 No. All the parsing/formatting is done directly in your browser, no data is sent to or from another service.

@@ -287,10 +287,6 @@ li.read .badge {
     margin: 5px auto 0 auto;
     padding: 5px;
 }
-.changes span {
-    display: inline-block;
-    width: 30%;
-}
 .changes table {
     width: 100%;
     word-break: break-all;
@@ -310,6 +306,10 @@ pre {
 }
 .changes table tr:nth-child(even) {
     background-color: #f5f5f5;
+}
+
+.forces-new-resource {
+    color: #b71c1c;
 }
 
 .collapsed, .hidden {
