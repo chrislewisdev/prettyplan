@@ -1,4 +1,4 @@
-function parse(terraformPlan) {
+export function parse(terraformPlan) {
     var warnings = parseWarnings(terraformPlan);
 
     var changeSummary = extractChangeSummary(terraformPlan);
@@ -142,14 +142,14 @@ function parseNewAndOldValueDiffs(change) {
 }
 
 //For usage in Jest tests
-if (module) {
-    module.exports = {
-        parseChangeSymbol: parseChangeSymbol,
-        parseId: parseId,
-        parseSingleValueDiffs: parseSingleValueDiffs,
-        parseNewAndOldValueDiffs: parseNewAndOldValueDiffs,
-        extractIndividualChanges: extractIndividualChanges,
-        extractChangeSummary: extractChangeSummary,
-        parseWarnings: parseWarnings
-    };
-}
+// if (module) {
+//     module.exports = {
+//         parseChangeSymbol: parseChangeSymbol,
+//         parseId: parseId,
+//         parseSingleValueDiffs: parseSingleValueDiffs,
+//         parseNewAndOldValueDiffs: parseNewAndOldValueDiffs,
+//         extractIndividualChanges: extractIndividualChanges,
+//         extractChangeSummary: extractChangeSummary,
+//         parseWarnings: parseWarnings
+//     };
+// }
