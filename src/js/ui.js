@@ -1,11 +1,11 @@
-function accordion(element) {
+export function accordion(element) {
     const changes = element.parentElement.getElementsByClassName('changes');
     for (var i = 0; i < changes.length; i++) {
         toggleClass(changes[i], 'collapsed');
     }
 }
 
-function toggleClass(element, className) {
+export function toggleClass(element, className) {
     if (!element.className.match(className)) {
         element.className += ' ' + className;
     }
@@ -14,15 +14,15 @@ function toggleClass(element, className) {
     }
 }
 
-function addClass(element, className) {
+export function addClass(element, className) {
     if (!element.className.match(className)) element.className += ' ' + className;
 }
 
-function removeClass(element, className) {
+export function removeClass(element, className) {
     element.className = element.className.replace(className, '');
 }
 
-function expandAll() {
+export function expandAll() {
     const sections = document.querySelectorAll('.changes.collapsed');
 
     for (var i = 0; i < sections.length; i++) {
@@ -33,7 +33,7 @@ function expandAll() {
     toggleClass(document.querySelector('.collapse-all'), 'hidden');
 }
 
-function collapseAll() {
+export function collapseAll() {
     const sections = document.querySelectorAll('.changes:not(.collapsed)');
 
     for (var i = 0; i < sections.length; i++) {
@@ -44,13 +44,13 @@ function collapseAll() {
     toggleClass(document.querySelector('.collapse-all'), 'hidden');
 }
 
-function removeChildren(element) {
+export function removeChildren(element) {
     while (element.lastChild) {
         element.removeChild(element.lastChild);
     }
 }
 
-function createModalContainer() {
+export function createModalContainer() {
     const modalElement = document.createElement('div');
     modalElement.id = 'modal-container';
 
@@ -59,7 +59,7 @@ function createModalContainer() {
     return modalElement;
 }
 
-function closeModal() {
+export function closeModal() {
     const modalElement = document.getElementById('modal-container');
     document.body.removeChild(modalElement);
 }

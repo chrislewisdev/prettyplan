@@ -1,36 +1,39 @@
-function clearExistingOutput() {
+import { removeChildren, addClass, removeClass, createModalContainer } from './ui.js';
+import { getReleases } from './releases.js';
+
+export function clearExistingOutput() {
     removeChildren(document.getElementById('errors'));
     removeChildren(document.getElementById('warnings'));
     removeChildren(document.getElementById('actions'));
 }
 
-function hideParsingErrorMessage() {
+export function hideParsingErrorMessage() {
     addClass(document.getElementById('parsing-error-message'), 'hidden');
 }
 
-function displayParsingErrorMessage() {
+export function displayParsingErrorMessage() {
     removeClass(document.getElementById('parsing-error-message'), 'hidden');
 }
 
-function unHidePlan() {
+export function unHidePlan() {
     removeClass(document.getElementById('prettyplan'), 'hidden');
 }
 
-function showReleaseNotification(version) {
+export function showReleaseNotification(version) {
     const notificationElement = document.getElementById('release-notification');
     notificationElement.innerHTML = components.releaseNotification(version);
     removeClass(notificationElement, 'hidden');
 }
 
-function hideReleaseNotification() {
+export function hideReleaseNotification() {
     addClass(document.getElementById('release-notification'), 'dismissed');
 }
 
-function showReleaseNotes() {
-    createModalContainer().innerHTML = components.modal(components.releaseNotes(releases));
+export function showReleaseNotes() {
+    createModalContainer().innerHTML = components.modal(components.releaseNotes(getReleases()));
 }
 
-function render(plan) {
+export function render(plan) {
     if (plan.warnings) {
         const warningList = document.getElementById('warnings');
         warningList.innerHTML = plan.warnings.map(components.warning).join('');

@@ -1,13 +1,17 @@
-function getCurrentVersion() {
+export function getCurrentVersion() {
     return releases[0].version;
 }
 
-function getLastUsedVersion() {
+export function getLastUsedVersion() {
     return window.localStorage.getItem('lastUsedVersion');
 }
 
-function updateLastUsedVersion() {
+export function updateLastUsedVersion() {
     window.localStorage.setItem('lastUsedVersion', getCurrentVersion());
+}
+
+export function getReleases() {
+    return releases;
 }
 
 //New releases should always go at the top of this list.
