@@ -1,13 +1,13 @@
-const parse = require('../js/parse.js');
+import { extractChangeSummary } from '../src/ts/parse'
 
 test('extract change summary - single line', function() {
-    const extractedSummary = parse.extractChangeSummary('Terraform will perform the following actions:<summary>');
+    const extractedSummary = extractChangeSummary('Terraform will perform the following actions:<summary>');
 
     expect(extractedSummary).toBe('<summary>');
 });
 
 test('extract change summary - multi line', function() {
-    const extractedSummary = parse.extractChangeSummary(`
+    const extractedSummary = extractChangeSummary(`
         Text preceding the terraform plan
 
         Terraform will perform the following actions:
@@ -19,7 +19,7 @@ test('extract change summary - multi line', function() {
 });
 
 test('extract change summary - without any Terraform summary prefix', function() {
-    const extractedSummary = parse.extractChangeSummary('<summary>');
+    const extractedSummary = extractChangeSummary('<summary>');
 
     expect(extractedSummary).toBe('<summary>');
 });

@@ -1,7 +1,7 @@
-const parse = require('../js/parse.js');
+import { parseWarnings } from '../src/ts/parse';
 
 test('parse warnings - single warning', function() {
-    const warnings = parse.parseWarnings('Warning: resource_name: <warning detail>');
+    const warnings = parseWarnings('Warning: resource_name: <warning detail>');
 
     expect(warnings).toHaveLength(1);
     expect(warnings[0].id.name).toBe('resource_name:');
@@ -9,7 +9,7 @@ test('parse warnings - single warning', function() {
 });
 
 test('parse warnings - multiple warning', function() {
-    const warnings = parse.parseWarnings('Warning: r1: w1\nWarning: r2: w2\nWarning: r3: w3');
+    const warnings = parseWarnings('Warning: r1: w1\nWarning: r2: w2\nWarning: r3: w3');
 
     expect(warnings).toHaveLength(3);
 
@@ -24,7 +24,7 @@ test('parse warnings - multiple warning', function() {
 });
 
 test('parse warnings - no warnings', function() {
-    const warnings = parse.parseWarnings('Here are some things that are NOT warnings');
+    const warnings = parseWarnings('Here are some things that are NOT warnings');
 
     expect(warnings).toHaveLength(0);
 });
