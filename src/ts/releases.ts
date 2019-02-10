@@ -1,17 +1,26 @@
-function getCurrentVersion() {
+export interface Release {
+    version: string;
+    notes: string[];
+}
+
+export function getCurrentVersion(): string {
     return releases[0].version;
 }
 
-function getLastUsedVersion() {
+export function getLastUsedVersion(): string {
     return window.localStorage.getItem('lastUsedVersion');
 }
 
-function updateLastUsedVersion() {
+export function updateLastUsedVersion(): void {
     window.localStorage.setItem('lastUsedVersion', getCurrentVersion());
 }
 
+export function getReleases(): Release[] {
+    return releases;
+}
+
 //New releases should always go at the top of this list.
-var releases = [
+let releases: Release[] = [
     {
         version: 'v1.2',
         notes: [

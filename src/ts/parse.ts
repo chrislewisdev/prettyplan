@@ -1,4 +1,37 @@
-function parse(terraformPlan) {
+export interface ResourceId {
+    name: string;
+    type: string;
+    prefixes: string[];
+}
+export interface Warning {
+    id: ResourceId;
+    detail: string;
+}
+export enum ChangeType {
+    Create = 'create',
+    Read = 'read',
+    Update = 'update',
+    Destroy = 'destroy',
+    Recreate = 'recreate',
+    Unknown = 'unknown'
+}
+export interface Diff {
+    property: string;
+    old?: string;
+    new: string;
+    forcesNewResource?: string;
+}
+export interface Action {
+    id: ResourceId;
+    type: ChangeType;
+    changes: Diff[];
+}
+export interface Plan {
+    warnings: Warning[];
+    actions: Action[];    
+}
+
+export function parse(terraformPlan: string): Plan {
     var warnings = parseWarnings(terraformPlan);
 
     var changeSummary = extractChangeSummary(terraformPlan);
@@ -12,10 +45,10 @@ function parse(terraformPlan) {
     return plan;
 }
 
-function parseWarnings(terraformPlan) {
-    var warningRegex = new RegExp('Warning: (.*:)(.*)', 'gm');
-    var warning;
-    var warnings = [];
+export function parseWarnings(terraformPlan: string): Warning[] {
+    let warningRegex: RegExp = new RegExp('Warning: (.*:)(.*)', 'gm');
+    let warning: RegExpExecArray;
+    let warnings: Warning[] = [];
 
     do {
         warning = warningRegex.exec(terraformPlan);
@@ -27,7 +60,7 @@ function parseWarnings(terraformPlan) {
     return warnings;
 }
 
-function extractChangeSummary(terraformPlan) {
+export function extractChangeSummary(terraformPlan: string): string {
     var beginActionRegex = new RegExp('Terraform will perform the following actions:', 'gm');
     var begin = beginActionRegex.exec(terraformPlan);
 
@@ -35,7 +68,7 @@ function extractChangeSummary(terraformPlan) {
     else return terraformPlan;
 }
 
-function extractIndividualChanges(changeSummary) {
+export function extractIndividualChanges(changeSummary: string): string[] {
     //TODO: Fix the '-/' in '-/+' getting chopped off
     var changeRegex = new RegExp('([~+-]|-\/\+|<=) [\\S\\s]*?((?=-\/\+|[~+-] |<=|Plan:)|$)', 'g');
     var change;
@@ -49,14 +82,14 @@ function extractIndividualChanges(changeSummary) {
     return changes;
 }
 
-function parseChange(change) {
+export function parseChange(change: string): Action {
     var changeTypeAndIdRegex = new RegExp('([~+-]|-\/\+|<=) (.*)$', 'gm');
     var changeTypeAndId = changeTypeAndIdRegex.exec(change);
     var changeTypeSymbol = changeTypeAndId[1];
     var resourceId = changeTypeAndId[2];
 
     var type;
-    type = parseChangeSymbol(changeTypeSymbol, type);
+    type = parseChangeSymbol(changeTypeSymbol);
 
     //Workaround for recreations showing up as '+' changes
     if (resourceId.match('(new resource required)')) {
@@ -79,7 +112,7 @@ function parseChange(change) {
     };
 }
 
-function parseId(resourceId) {
+export function parseId(resourceId: string): ResourceId {
     var idSegments = resourceId.split('.');
     var resourceName = idSegments[idSegments.length - 1];
     var resourceType = idSegments[idSegments.length - 2] || null;
@@ -88,22 +121,22 @@ function parseId(resourceId) {
     return { name: resourceName, type: resourceType, prefixes: resourcePrefixes };
 }
 
-function parseChangeSymbol(changeTypeSymbol) {
+export function parseChangeSymbol(changeTypeSymbol): ChangeType {
     if (changeTypeSymbol === "-")
-        return 'destroy';
+        return ChangeType.Destroy;
     else if (changeTypeSymbol === "+")
-        return 'create';
+        return ChangeType.Create;
     else if (changeTypeSymbol === "~")
-        return 'update';
+        return ChangeType.Update
     else if (changeTypeSymbol === "<=")
-        return 'read';
+        return ChangeType.Read;
     else if (changeTypeSymbol === "-/+")
-        return 'recreate';
+        return ChangeType.Recreate;
     else
-        return 'unknown';
+        return ChangeType.Unknown;
 }
 
-function parseSingleValueDiffs(change) {
+export function parseSingleValueDiffs(change): Diff[] {
     var propertyAndValueRegex = new RegExp('\\s*(.*?): *(?:<computed>|"(|[\\S\\s]*?[^\\\\])")', 'gm');
     var diff;
     var diffs = [];
@@ -121,7 +154,7 @@ function parseSingleValueDiffs(change) {
     return diffs;
 }
 
-function parseNewAndOldValueDiffs(change) {
+export function parseNewAndOldValueDiffs(change): Diff[] {
     var propertyAndNewAndOldValueRegex = new RegExp('\\s*(.*?): *(?:"(|[\\S\\s]*?[^\\\\])")[\\S\\s]*?=> *(?:<computed>|"(|[\\S\\s]*?[^\\\\])")( \\(forces new resource\\))?', 'gm');
     var diff;
     var diffs = [];
@@ -139,17 +172,4 @@ function parseNewAndOldValueDiffs(change) {
     } while (diff);
 
     return diffs;
-}
-
-//For usage in Jest tests
-if (module) {
-    module.exports = {
-        parseChangeSymbol: parseChangeSymbol,
-        parseId: parseId,
-        parseSingleValueDiffs: parseSingleValueDiffs,
-        parseNewAndOldValueDiffs: parseNewAndOldValueDiffs,
-        extractIndividualChanges: extractIndividualChanges,
-        extractChangeSummary: extractChangeSummary,
-        parseWarnings: parseWarnings
-    };
 }
