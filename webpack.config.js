@@ -4,7 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './src/js/prettyplan.ts',
+    entry: './src/ts/prettyplan.ts',
     devServer: {
         contentBase: './dist'
     },
