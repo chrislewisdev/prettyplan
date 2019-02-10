@@ -1,6 +1,6 @@
-import { getCurrentVersion, getLastUsedVersion, updateLastUsedVersion } from './releases.js';
-import { expandAll, collapseAll, accordion, closeModal } from './ui.js';
-import { showReleaseNotification, hideReleaseNotification, showReleaseNotes, displayParsingErrorMessage, hideParsingErrorMessage, clearExistingOutput, unHidePlan, render } from './render.js';
+import { getCurrentVersion, getLastUsedVersion, updateLastUsedVersion } from './releases';
+import { expandAll, collapseAll, accordion, closeModal } from './ui';
+import { showReleaseNotification, hideReleaseNotification, showReleaseNotes, displayParsingErrorMessage, hideParsingErrorMessage, clearExistingOutput, unHidePlan, render } from './render';
 import { parse } from './parse';
 
 window.addEventListener('load', function () {
