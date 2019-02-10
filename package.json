@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Formatting tool for terraform plan output",
   "author": "Chris Lewis",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/chrislewisdev/prettyplan"
