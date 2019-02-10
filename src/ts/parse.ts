@@ -45,7 +45,7 @@ export function parse(terraformPlan: string): Plan {
     return plan;
 }
 
-function parseWarnings(terraformPlan: string): Warning[] {
+export function parseWarnings(terraformPlan: string): Warning[] {
     let warningRegex: RegExp = new RegExp('Warning: (.*:)(.*)', 'gm');
     let warning: RegExpExecArray;
     let warnings: Warning[] = [];
@@ -60,7 +60,7 @@ function parseWarnings(terraformPlan: string): Warning[] {
     return warnings;
 }
 
-function extractChangeSummary(terraformPlan: string): string {
+export function extractChangeSummary(terraformPlan: string): string {
     var beginActionRegex = new RegExp('Terraform will perform the following actions:', 'gm');
     var begin = beginActionRegex.exec(terraformPlan);
 
@@ -68,7 +68,7 @@ function extractChangeSummary(terraformPlan: string): string {
     else return terraformPlan;
 }
 
-function extractIndividualChanges(changeSummary: string): string[] {
+export function extractIndividualChanges(changeSummary: string): string[] {
     //TODO: Fix the '-/' in '-/+' getting chopped off
     var changeRegex = new RegExp('([~+-]|-\/\+|<=) [\\S\\s]*?((?=-\/\+|[~+-] |<=|Plan:)|$)', 'g');
     var change;
@@ -82,7 +82,7 @@ function extractIndividualChanges(changeSummary: string): string[] {
     return changes;
 }
 
-function parseChange(change: string): Action {
+export function parseChange(change: string): Action {
     var changeTypeAndIdRegex = new RegExp('([~+-]|-\/\+|<=) (.*)$', 'gm');
     var changeTypeAndId = changeTypeAndIdRegex.exec(change);
     var changeTypeSymbol = changeTypeAndId[1];
@@ -112,7 +112,7 @@ function parseChange(change: string): Action {
     };
 }
 
-function parseId(resourceId: string): ResourceId {
+export function parseId(resourceId: string): ResourceId {
     var idSegments = resourceId.split('.');
     var resourceName = idSegments[idSegments.length - 1];
     var resourceType = idSegments[idSegments.length - 2] || null;
@@ -121,7 +121,7 @@ function parseId(resourceId: string): ResourceId {
     return { name: resourceName, type: resourceType, prefixes: resourcePrefixes };
 }
 
-function parseChangeSymbol(changeTypeSymbol): ChangeType {
+export function parseChangeSymbol(changeTypeSymbol): ChangeType {
     if (changeTypeSymbol === "-")
         return ChangeType.Destroy;
     else if (changeTypeSymbol === "+")
@@ -136,7 +136,7 @@ function parseChangeSymbol(changeTypeSymbol): ChangeType {
         return ChangeType.Unknown;
 }
 
-function parseSingleValueDiffs(change): Diff[] {
+export function parseSingleValueDiffs(change): Diff[] {
     var propertyAndValueRegex = new RegExp('\\s*(.*?): *(?:<computed>|"(|[\\S\\s]*?[^\\\\])")', 'gm');
     var diff;
     var diffs = [];
@@ -154,7 +154,7 @@ function parseSingleValueDiffs(change): Diff[] {
     return diffs;
 }
 
-function parseNewAndOldValueDiffs(change): Diff[] {
+export function parseNewAndOldValueDiffs(change): Diff[] {
     var propertyAndNewAndOldValueRegex = new RegExp('\\s*(.*?): *(?:"(|[\\S\\s]*?[^\\\\])")[\\S\\s]*?=> *(?:<computed>|"(|[\\S\\s]*?[^\\\\])")( \\(forces new resource\\))?', 'gm');
     var diff;
     var diffs = [];
@@ -173,16 +173,3 @@ function parseNewAndOldValueDiffs(change): Diff[] {
 
     return diffs;
 }
-
-//For usage in Jest tests
-// if (module) {
-//     module.exports = {
-//         parseChangeSymbol: parseChangeSymbol,
-//         parseId: parseId,
-//         parseSingleValueDiffs: parseSingleValueDiffs,
-//         parseNewAndOldValueDiffs: parseNewAndOldValueDiffs,
-//         extractIndividualChanges: extractIndividualChanges,
-//         extractChangeSummary: extractChangeSummary,
-//         parseWarnings: parseWarnings
-//     };
-// }

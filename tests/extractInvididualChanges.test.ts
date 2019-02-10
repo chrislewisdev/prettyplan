@@ -1,7 +1,7 @@
-const parse = require('../js/parse.js');
+import { extractIndividualChanges } from '../src/ts/parse';
 
 test('extract individual changes - with plan summary at end', function() {
-    const changes = parse.extractIndividualChanges(`
+    const changes = extractIndividualChanges(`
       + module.alb.aws_alb_listener.default_https
           ssl_policy:                                             "old" => "new"
     
@@ -25,7 +25,7 @@ test('extract individual changes - with plan summary at end', function() {
 });
 
 test('extract individual changes - without plan summary at end', function() {
-    const changes = parse.extractIndividualChanges(`
+    const changes = extractIndividualChanges(`
       + module.alb.aws_alb_listener.default_https
           ssl_policy:                                             "old" => "new"
     
@@ -37,7 +37,7 @@ test('extract individual changes - without plan summary at end', function() {
 });
 
 test('extract individual changes - with extra text at the start', function() {
-    const changes = parse.extractIndividualChanges(`
+    const changes = extractIndividualChanges(`
       this text here should not be detected part of the change
       neither should this
       -------------------------------------------
