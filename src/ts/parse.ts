@@ -17,8 +17,8 @@ export enum ChangeType {
 }
 export interface Diff {
     property: string;
-    old: string;
-    new?: string;
+    old?: string;
+    new: string;
     forcesNewResource?: string;
 }
 export interface Action {
