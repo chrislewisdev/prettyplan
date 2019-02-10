@@ -17,9 +17,9 @@ Things I'd like to add in the future if possible:
 
 You're welcome to submit ideas/bugs (via the Issues section) or improvements (via Pull Requests)! 
 
-The code in its current state aims to be as simple as possible: it's all plain JavaScript, so no build is required. Just edit the HTML/CSS/JS in whatever editor you like, then test it out by opening `index.html` in your browser!
+The code has all been converted from JavaScript to TypeScript and is built by webpack. To work on the project locally, you should be able to get everything up and running just by having `npm`, running `npm install` and then `npm run serve` which will open up Prettyplan in your default browser, ready for any changes you make to the source files.
 
-Any additional development dependencies - e.g. JavaScript frameworks, test frameworks, build systems, what have you - will be added on an as-needs basis if the project grows to require them.
+You can also run `npm run build` to build the project without a dev server.
  
 ### Tests
 
@@ -27,7 +27,7 @@ Tests are being run on every commit and Pull Request via Travis, but if you want
 
 ## Deployment
 
-The website is served from the `gh-pages` branch. All PRs should be landed onto `master` and then, whenever it's appropriate for a new release, `gh-pages` can be updated with a merge from `master`, with updated release notes.
+The website is served from the `gh-pages` branch, but will be moving to a separate deployment soon. Once moved, the `gh-pages` version will no longer be updated.
 
 ## Will this steal sensitive data from my Terraform plans?
 
