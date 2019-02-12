@@ -69,20 +69,20 @@ const components = {
         </li>
     `,
 
-    changeCount: (count: number): string => `
+    diffCount: (count: number): string => `
         <span class="change-count">
             ${count + ' change' + (count > 1 ? 's' : '')}
         </span>
     `,
 
-    change: (change: Diff): string => `
+    diff: (diff: Diff): string => `
         <tr>
             <td class="property">
-                ${change.property}
-                ${change.forcesNewResource ? `<br /><span class="forces-new-resource">(forces new resource)</span>` : ''}
+                ${diff.property}
+                ${diff.forcesNewResource ? `<br /><span class="forces-new-resource">(forces new resource)</span>` : ''}
             </td>
-            <td class="old-value">${change.old ? prettify(change.old) : ''}</td>
-            <td class="new-value">${prettify(change.new)}</td>
+            <td class="old-value">${diff.old ? prettify(diff.old) : ''}</td>
+            <td class="new-value">${prettify(diff.new)}</td>
         </tr>
     `,
 
@@ -91,11 +91,11 @@ const components = {
             <div class="summary" onclick="accordion(this)">
                 ${components.badge(action.type)}
                 ${components.id(action.id)}
-                ${action.changes ? components.changeCount(action.changes.length) : ''}
+                ${action.diffs ? components.diffCount(action.diffs.length) : ''}
             </div>
             <div class="changes collapsed">
                 <table>
-                    ${action.changes.map(components.change).join('')}
+                    ${action.diffs.map(components.diff).join('')}
                 </table>
             </div>
         </li>

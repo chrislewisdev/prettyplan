@@ -7,7 +7,7 @@ export interface Warning {
     id: ResourceId;
     detail: string;
 }
-export enum ChangeType {
+export enum ActionType {
     Create = 'create',
     Read = 'read',
     Update = 'update',
@@ -17,14 +17,14 @@ export enum ChangeType {
 }
 export interface Diff {
     property: string;
-    old?: string;
     new: string;
+    old?: string;
     forcesNewResource?: string;
 }
 export interface Action {
     id: ResourceId;
-    type: ChangeType;
-    changes: Diff[];
+    type: ActionType;
+    diffs: Diff[];
 }
 export interface Plan {
     warnings: Warning[];
@@ -34,12 +34,12 @@ export interface Plan {
 export function parse(terraformPlan: string): Plan {
     var warnings = parseWarnings(terraformPlan);
 
-    var changeSummary = extractChangeSummary(terraformPlan);
-    var changes = extractIndividualChanges(changeSummary);
+    var changeSummary = extractPlanSummary(terraformPlan);
+    var actions = extractIndividualActions(changeSummary);
 
     var plan = { warnings: warnings, actions: [] };
-    for (var i = 0; i < changes.length; i++) {
-        plan.actions.push(parseChange(changes[i]));
+    for (var i = 0; i < actions.length; i++) {
+        plan.actions.push(parseAction(actions[i]));
     }
 
     return plan;
@@ -60,7 +60,7 @@ export function parseWarnings(terraformPlan: string): Warning[] {
     return warnings;
 }
 
-export function extractChangeSummary(terraformPlan: string): string {
+export function extractPlanSummary(terraformPlan: string): string {
     var beginActionRegex = new RegExp('Terraform will perform the following actions:', 'gm');
     var begin = beginActionRegex.exec(terraformPlan);
 
@@ -68,7 +68,7 @@ export function extractChangeSummary(terraformPlan: string): string {
     else return terraformPlan;
 }
 
-export function extractIndividualChanges(changeSummary: string): string[] {
+export function extractIndividualActions(changeSummary: string): string[] {
     //TODO: Fix the '-/' in '-/+' getting chopped off
     var changeRegex = new RegExp('([~+-]|-\/\+|<=) [\\S\\s]*?((?=-\/\+|[~+-] |<=|Plan:)|$)', 'g');
     var change;
@@ -82,14 +82,14 @@ export function extractIndividualChanges(changeSummary: string): string[] {
     return changes;
 }
 
-export function parseChange(change: string): Action {
-    var changeTypeAndIdRegex = new RegExp('([~+-]|-\/\+|<=) (.*)$', 'gm');
-    var changeTypeAndId = changeTypeAndIdRegex.exec(change);
-    var changeTypeSymbol = changeTypeAndId[1];
-    var resourceId = changeTypeAndId[2];
+export function parseAction(change: string): Action {
+    var actionTypeAndIdRegex = new RegExp('([~+-]|-\/\+|<=) (.*)$', 'gm');
+    var actionTypeAndId = actionTypeAndIdRegex.exec(change);
+    var actionTypeSymbol = actionTypeAndId[1];
+    var resourceId = actionTypeAndId[2];
 
     var type;
-    type = parseChangeSymbol(changeTypeSymbol);
+    type = parseActionType(actionTypeSymbol);
 
     //Workaround for recreations showing up as '+' changes
     if (resourceId.match('(new resource required)')) {
@@ -108,7 +108,7 @@ export function parseChange(change: string): Action {
     return {
         id: parseId(resourceId),
         type: type,
-        changes: diffs
+        diffs: diffs
     };
 }
 
@@ -121,19 +121,19 @@ export function parseId(resourceId: string): ResourceId {
     return { name: resourceName, type: resourceType, prefixes: resourcePrefixes };
 }
 
-export function parseChangeSymbol(changeTypeSymbol): ChangeType {
+export function parseActionType(changeTypeSymbol): ActionType {
     if (changeTypeSymbol === "-")
-        return ChangeType.Destroy;
+        return ActionType.Destroy;
     else if (changeTypeSymbol === "+")
-        return ChangeType.Create;
+        return ActionType.Create;
     else if (changeTypeSymbol === "~")
-        return ChangeType.Update
+        return ActionType.Update
     else if (changeTypeSymbol === "<=")
-        return ChangeType.Read;
+        return ActionType.Read;
     else if (changeTypeSymbol === "-/+")
-        return ChangeType.Recreate;
+        return ActionType.Recreate;
     else
-        return ChangeType.Unknown;
+        return ActionType.Unknown;
 }
 
 export function parseSingleValueDiffs(change): Diff[] {
