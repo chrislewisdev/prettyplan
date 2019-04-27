@@ -22,6 +22,12 @@ export function getReleases(): Release[] {
 //New releases should always go at the top of this list.
 let releases: Release[] = [
     {
+        version: 'v1.3',
+        notes: [
+            'A command-line version of Prettyplan is now available! Check it out on <a target="_blank" href="https://github.com/chrislewisdev/prettyplan-cli">GitHub</a>'
+        ]
+    },
+    {
         version: 'v1.2',
         notes: [
             '<em>&lt;computed&gt;</em> values now display properly instead of being interpreted as HTML (<a target="_blank" href="https://github.com/chrislewisdev/prettyplan/issues/2">#2</a>)',
