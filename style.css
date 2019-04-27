@@ -315,3 +315,18 @@ pre {
 .collapsed, .hidden {
     display: none;
 }
+
+#migration-notice {
+    background: #b71c1c;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    padding: 10px 0 15px 0;
+    height: 20px;
+    animation-name: notification-pop-in;
+    animation-duration: 1s;
+}
+#migration-notice a {
+    color: white;
+}
