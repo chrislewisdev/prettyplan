@@ -6,12 +6,11 @@ Prettyplan ([available online here](https://prettyplan.chrislewisdev.com/)) is a
  - Tabular layout for easy comparison of old/new values
  - Better display formatting of multi-line strings (such as JSON documents)
  
-## Planned Features
+## Terraform Version Compatibility
 
-Things I'd like to add in the future if possible:
+Prettyplan was written to work on Terraform plans from 0.11 and earlier. In 0.12, the plan output was significantly changed, addressing many of the pain points that Prettyplan addresses; for this reason, there are no current plans to update Prettyplan to work with 0.12. In my case, Prettyplan was made unnecessary by Terraform's improvements.
 
- - Full diff highlighting for new/old values (especially large JSON documents)
- - Command-line integration (e.g. a nicer way of generating pretty plans without copying/pasting all the time)
+Contributions are still welcome if anyone would like to upgrade the code to handle plans from 0.12 onwards.
  
 ## Contributing
 
@@ -27,7 +26,7 @@ Tests are being run on every commit and Pull Request via Travis, but if you want
 
 ## Deployment
 
-The website is served from the `gh-pages` branch, but will be moving to a separate deployment soon. Once moved, the `gh-pages` version will no longer be updated.
+The project is deployed to Netlify; a slightly older version of the code is also served on GitHub pages which used to be the main way to access Prettyplan.
 
 ## Will this steal sensitive data from my Terraform plans?
 
